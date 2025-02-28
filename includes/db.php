@@ -3,9 +3,9 @@
 function getConnection():mysqli
 {
     $hostname = 'localhost';
-    $dbName = 'enrollment';
-    $username = 'demo';
-    $password = 'abc123';
+    $dbName = 'projectweb';
+    $username = 'projectweb';
+    $password = '1234';
     $conn = new mysqli($hostname, $username, $password, $dbName);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);

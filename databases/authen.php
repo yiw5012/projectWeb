@@ -3,7 +3,7 @@
 function login(String $username, String $password): array|bool
 {
     $conn = getConnection();
-    $sql = 'select * from students where email = ?';
+    $sql = 'select * from users where email = ?';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
