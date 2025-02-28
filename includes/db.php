@@ -3,9 +3,9 @@
 function getConnection():mysqli
 {
     $hostname = 'localhost';
-    $dbName = 'enrollment';
-    $username = 'demo';
-    $password = 'abc123';
+    $dbName = 'projectweb';
+    $username = 'projectweb';
+    $password = '1234';
     $conn = new mysqli($hostname, $username, $password, $dbName);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -15,5 +15,5 @@ function getConnection():mysqli
 
 require_once DATABASE_DIR . '/students.php';
 require_once DATABASE_DIR . '/authen.php';
-require_once DATABASE_DIR . '/courses.php';
-require_once DATABASE_DIR . '/enrollments.php';
+// require_once DATABASE_DIR . '/courses.php';
+// require_once DATABASE_DIR . '/enrollments.php';
