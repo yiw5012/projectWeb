@@ -1,7 +1,3 @@
 <?php
 
-$result = getCourses();
-
-renderView('courses_get',[
-    'courses' => $result
-]);
+renderView('courses_get');
