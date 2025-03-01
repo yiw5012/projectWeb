@@ -13,7 +13,7 @@ function getConnection():mysqli
     return $conn;
 }
 
-require_once DATABASE_DIR . '/students.php';
+require_once DATABASE_DIR . '/users.php';
 require_once DATABASE_DIR . '/authen.php';
 // require_once DATABASE_DIR . '/courses.php';
 // require_once DATABASE_DIR . '/enrollments.php';
