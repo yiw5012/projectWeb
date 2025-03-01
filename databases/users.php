@@ -8,10 +8,10 @@ function getStudents(): mysqli_result|bool
     return $result;
 }
 
-function getStudentById(int $id): array|bool
+function getUserById(int $id):mysqli_result|bool
 {
     $conn = getConnection();
-    $sql = 'select * from students where student_id = ?';
+    $sql = 'select * from users where user_id = ?';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -19,6 +19,6 @@ function getStudentById(int $id): array|bool
     if ($result->num_rows == 0) {
         return false;
     }
-    return $result->fetch_assoc();
+    return $result;
 }
 

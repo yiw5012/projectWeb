@@ -22,7 +22,8 @@
         background-color: rgba(0, 0, 0, 0);
     }
 
-    .navbar-brand, .nav-link {
+    .navbar-brand,
+    .nav-link {
         color: white !important;
     }
 
@@ -69,21 +70,22 @@
         width: 200px;
     }
 </style>
-<?php if (isset($_SESSION['timestamp'])): ?>
-<body>
-<h1>ยินดีต้อนรับสู่เว็บไซต์ของเรา!</h1>
-    สวัสดี, <?= $data['name'].'  '.$data['role']?> 🎉
-</body>
+<?php if (isset($_SESSION['timestamp'])):
+    while ($row = $data['result']->fetch_object()) { ?>
+        <h2>สวัสดีคุณ <?= $row->name ?> <?= $row->email ?></h2>
+    <?php
+    }?>
 <?php else: ?>
+
     <body>
-<section class="hero-section">
-        <div>
-            <h1>ยินดีต้อนรับสู่เว็บไซต์ของเรา!</h1>
-            <p>เราพร้อมที่จะให้บริการคุณด้วยประสบการณ์ที่ดีที่สุด</p>
-            <button onclick="window.location.href='/login'" class="btn-custom">Login</button>
-            <!-- ลิงก์ไปที่หน้าสมัครสมาชิก -->
-            <button onclick="window.location.href='/register'" class="btn-custom">Register</button>
-        </div>
-    </section>
-</body>
+        <section class="hero-section">
+            <div>
+                <h1>ยินดีต้อนรับสู่เว็บไซต์ของเรา!</h1>
+                <p>เราพร้อมที่จะให้บริการคุณด้วยประสบการณ์ที่ดีที่สุด</p>
+                <button onclick="window.location.href='/login'" class="btn-custom">Login</button>
+                <!-- ลิงก์ไปที่หน้าสมัครสมาชิก -->
+                <button onclick="window.location.href='/register'" class="btn-custom">Register</button>
+            </div>
+        </section>
+    </body>
 <?php endif; ?>
