@@ -69,10 +69,10 @@
                             <a class="nav-link" href="/">หน้าแรก</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">ข้อมูลนักเรียน</a>
+                            <a class="nav-link" href="/createAct">สร้างกิจกรรม</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/courses">รายวิชา</a>
+                            <a class="nav-link" href="/">รายวิชา</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-danger" href="/logout">ออกจากระบบ</a>
