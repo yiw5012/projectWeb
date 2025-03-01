@@ -12,12 +12,13 @@
 <input type="date" name="dateevent" id="dateevent"><br>
 
 <h3>data_for_register</h3>
-<input type="text" name="actname" id="actname"><br>
+<input type="text" name="dateregisterend" id="dateregisterend"><br>
 
 <h3>max_for_register</h3>
 <input type="text" name="maxregister" id="maxregister"><br>
-<button type="submit">crate_event</button>    
+<button type="submit" >crate_event</button>    
 </form>
+<!-- value="<?= $_SESSION['user_id'] ?>" -->
 
 
 
