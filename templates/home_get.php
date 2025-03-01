@@ -70,11 +70,20 @@
         width: 200px;
     }
 </style>
-<?php if (isset($_SESSION['timestamp'])):
-    while ($row = $data['result']->fetch_object()) { ?>
-        <h2>สวัสดีคุณ <?= $row->name ?> <?= $row->email ?></h2>
-    <?php
-    }?>
+<?php if (isset($_SESSION['timestamp'])):?>
+        <section>
+        <h1>Event</h1>
+        <?php
+        while ($row = $data['events']->fetch_object()) {
+        ?>
+            <?= json_encode($row) ?>
+            <br>
+        <?php
+        }
+        ?>
+    </section>
+
+    
 <?php else: ?>
 
     <body>
