@@ -4,10 +4,9 @@ function get_registered_users_by_creator($creator_id): mysqli_result|bool
     $conn = getConnection();
     $sql = '
         SELECT 
-        users.name, 
+            users.name, 
             users.age, 
             users.gender,
-            
             registration.user_id, 
             registration.event_id, 
             events.title_event

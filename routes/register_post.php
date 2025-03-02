@@ -6,7 +6,6 @@ $email = trim($_POST["email"] ?? "");
 $password = trim($_POST["password"] ?? "");
 $age = trim($_POST["age"] ?? "");
 $gender = trim($_POST["gender"] ?? "");
-echo'dasdadadadadadad';
 // ตรวจสอบว่าฟังก์ชัน ADDEnroll มีอยู่หรือไม่
 // ส่งค่าที่ตรวจสอบแล้วไปที่ ADDEnroll
 $res = insertuser($name, $email, $password, $gender, $age);
