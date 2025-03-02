@@ -16,4 +16,4 @@ function getConnection():mysqli
 require_once DATABASE_DIR . '/users.php';
 require_once DATABASE_DIR . '/authen.php';
  require_once DATABASE_DIR . '/event.php';
-// require_once DATABASE_DIR . '/enrollments.php';
+ require_once DATABASE_DIR . '/registration.php';
