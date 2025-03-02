@@ -130,7 +130,7 @@
                                 <li class="list-group-item"><strong>ผู้สร้าง:</strong> <?= $row->created_by ?></li>
                             </ul>
                             <div class="mt-3 text-center">
-                                <a href="#" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
+                                <a href="/registration?event_id=<?= $row->event_id ?>" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
                             <a href="/EditAct?event_id=<?= $row->event_id ?>" class="btn btn-primary">แก้ไขกิจกรรม</a>
                             </div>
                         </div>

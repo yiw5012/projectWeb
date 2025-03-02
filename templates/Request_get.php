@@ -7,22 +7,27 @@
                     <th>ชื่อ-นามสกุล</th>
                     <th>อายุ</th>
                     <th>เพศ</th>
+                    <th>กิจกรรม</th>
+
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['user'] as $user): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($user['name']) ?></td>
-                        <td><?= htmlspecialchars($user['age']) ?></td>
-                        <td><?= htmlspecialchars($user['gender']) ?></td>
+
+    
+            <?php while ($row = $data['result']->fetch_object()): ?>
+                <tr>
+                        <td><?= $row->name ?></td>
+                        <td><?= $row->age ?></td>
+                        <td><?= $row->gender ?></td>
+                        <td><?= $row->title_event ?></td>
                         <td>
-                            <a href="/Accept_user?user_id=<?= htmlspecialchars($data['result']['user_id']) ?>"
+                            <a href="/Accept_user?user_id=<?= $row->user_id  ?>"
                                 onclick="return confirmSubmission()"
-                                class="btn btn-danger btn-sm">
+                                class="btn btn-success btn-sm">
                                 อนุมัติ
                             </a>
-                            <a href="/Cancel_user?user_id=<?= htmlspecialchars($data['result']['user_id']) ?>"
+                            <a href="/Cancel_user?user_id=<?= $row->user_id ?>"
                                 onclick="return confirmSubmission()"
                                 class="btn btn-danger btn-sm">
                                 ปฏิเสธ
@@ -30,8 +35,8 @@
                         </td>
 
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
+                    <?php endwhile; ?>
+                    </tbody>
         </table>
     </div>
 </section>
