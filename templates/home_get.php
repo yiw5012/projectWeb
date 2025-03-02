@@ -76,6 +76,13 @@
 <body>
     <?php if (isset($_SESSION['timestamp'])): ?>
         <section>
+        <!-- Search sesction -->
+        <form action="home" method="get">
+        <input type="text" name="keyword" />
+        <button type="submit">Search</button>
+    </form>
+    <!-- end search section -->
+
             <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
             <div class="container">
                 <table class="table table-bordered table-striped text-center">
