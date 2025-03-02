@@ -32,4 +32,14 @@ function getmax_userid():int {
 
     return $maxid+1;
 }
+function insertuser($name, $email, $password, $gender, $age) {
+    $role = "";
+        $conn = getConnection();
+        $sql = 'INSERT INTO users ( name, email, password, gender, age) VALUES (?,?,?,?,?)';
+        $stmt = $conn->prepare($sql);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bind_param('ssssi', $name, $email, $hash, $gender, $age);
+        $stmt->execute();
+    
+    }
 

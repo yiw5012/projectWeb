@@ -1,4 +1,4 @@
-<form action="crateAct" method="post">
+<form action="createAct" method="post">
 <h3>Name Act</h3>
 <input type="text" name="actname" id="actname"><br>
 
