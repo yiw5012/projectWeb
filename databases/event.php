@@ -10,6 +10,7 @@ function getEvent():mysqli_result|bool
     return $result;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 function getEventsByKeyword(string $keyword): mysqli_result|bool
 {
     $conn = getConnection();
@@ -62,6 +63,8 @@ function CreateACT($id, $actname, $detailact, $location, $dateevent, $maxregiste
     }
 }
 =======
+=======
+>>>>>>> 8704d84ab52f3eaf321b37db0f3bbc5d58753880
 
 function getEventby_keyword($keyword):mysqli_result|bool {
 
@@ -74,5 +77,9 @@ function getEventby_keyword($keyword):mysqli_result|bool {
     $result = $stmt->get_result();
 
     return $result;
+<<<<<<< HEAD
+}
+>>>>>>> 8704d84ab52f3eaf321b37db0f3bbc5d58753880
+=======
 }
 >>>>>>> 8704d84ab52f3eaf321b37db0f3bbc5d58753880

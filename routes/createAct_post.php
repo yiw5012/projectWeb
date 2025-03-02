@@ -35,5 +35,4 @@ if ($res) {
 // $_POST["actname"];
 // $_POST["dateregisterend"];
 // $_POST["maxregister"];
-echo ($_POST["actname"] . $_POST["detailact"] . $_POST["location"] . $_POST["detailact"] . $_POST["dateevent"] . $_POST["actname"] . $_POST["dateregisterend"] . $_POST["maxregister"]);
->>>>>>> 8704d84ab52f3eaf321b37db0f3bbc5d58753880
+echo ($_POST["actname"] . $_POST["detailact"] . $_POST["location"] . $_POST["detailact"] . $_POST["dateevent"] . $_POST["actname"] . $_POST["dateregisterend"]. $_POST["maxregister"]);

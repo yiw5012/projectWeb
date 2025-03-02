@@ -107,7 +107,6 @@
 <body>
     <?php if (isset($_SESSION['timestamp'])): ?>
         <section>
-<<<<<<< HEAD
     <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
         <form  style="margin-left: 100px;;" action="home" method="get">
         <input class="input" type="text" name="keyword" />
@@ -141,49 +140,6 @@
     </div>
 </section>
 
-=======
-        <!-- Search sesction -->
-        <form action="home" method="get">
-        <input type="text" name="keyword" />
-        <button type="submit">Search</button>
-    </form>
-    <!-- end search section -->
-
-            <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
-            <div class="container">
-                <table class="table table-bordered table-striped text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>รหัสกิจกรรม</th>
-                            <th>ชื่อกิจกรรม</th>
-                            <th>รายละเอียด</th>
-                            <th>เวลากิจกรรม</th>
-                            <th>สถานที่</th>
-                            <th>จำนวนคน</th>
-                            <th>ผู้สร้าง</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $data['events']->fetch_object()): ?>
-                            <tr>
-                                <td><?= $row->event_id ?></td>
-                                <td><?= $row->title_event ?></td>
-                                <td><?= $row->description ?></td>
-                                <td><?= $row->date_time ?></td>
-                                <td><?= $row->location ?></td>
-                                <td><?= $row->max_capacity ?></td>
-                                <td><?= $row->created_by ?></td>
-                                <td>
-                                    <!-- สามารถเพิ่มปุ่มหรือลิงก์ที่นี่ถ้าต้องการ -->
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
-        </section>
->>>>>>> 8704d84ab52f3eaf321b37db0f3bbc5d58753880
     <?php else: ?>
         <section class="hero-section">
             <div>

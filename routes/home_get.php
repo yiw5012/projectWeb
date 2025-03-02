@@ -5,7 +5,7 @@ $result = getUserById($_SESSION['student_id']);
 // $events=getEvent();
 
 if(isset($_GET['keyword'])) {
-    $events = getEventby_keyword($_GET['keyword']);
+    $events = getEventsByKeyword($_GET['keyword']);
     renderView('events_get',array('result' => $result,'events'=>$events));
 }else{
     // in case !isset($_GET['keyword']) || $_GET['keyword'] == ''
@@ -24,8 +24,5 @@ if (!isset($_GET['keyword'])) {
 
 }
 // เรียกใช้งานฟังก์ชัน renderView เพื่อแสดงผลในหน้า home_get.php
-<<<<<<< HEAD
-=======
 // renderView('home_get', array('result' => $result,'events'=>$events));
->>>>>>> 8704d84ab52f3eaf321b37db0f3bbc5d58753880
 ?>
