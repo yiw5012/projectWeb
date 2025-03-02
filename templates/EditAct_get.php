@@ -29,9 +29,11 @@
         }
     </style>
 </head>
+
 <body class="bg-light">
     <div class="container py-5">
         <div class="row g-5">
+        <?php while ($row = $data['result']->fetch_object()): ?>
 
             <div class="col-lg-4">
                 <div class="upload-section" onclick="document.getElementById('fileInput').click()">
@@ -51,7 +53,7 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-12">
                             <label class="form-label">ชื่อกิจกรรม</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" class="form-control" value="<?= $row->title_event ?>" required>
                         </div>
                     </div>
 
@@ -87,6 +89,7 @@
                         </div>
                     </div>
 
+                    <?php endwhile; ?>
 
 
                     <button type="submit" class="btn btn-success w-100 py-2">ยืนยันการแก้ไข้</button>
