@@ -103,3 +103,16 @@ function insertEvent($event_id, $title_event, $description, $date_time, $locatio
     // issssiis
 
 }
+function getEventby_id($event_id): mysqli_result|bool
+{
+
+    $conn = getConnection();
+    $sql = 'select * from events where event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i',$event_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    return $result;
+
+}

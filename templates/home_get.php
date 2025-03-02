@@ -131,7 +131,7 @@
                             </ul>
                             <div class="mt-3 text-center">
                                 <a href="#" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
-                                <a href="/EditAct" class="btn btn-primary">แก้ไขกิจกรรม</a>
+                            <a href="/EditAct?event_id=<?= $row->event_id ?>" class="btn btn-primary">แก้ไขกิจกรรม</a>
                             </div>
                         </div>
                     </div>
