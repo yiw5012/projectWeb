@@ -1,7 +1,5 @@
 <?php
 ?>
-<!DOCTYPE html>
-<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,7 +45,6 @@
             <!-- ส่วนกลางและขวา - ฟอร์มสมัครสมาชิก -->
             <div class="col-lg-8">
                 <h1 class="mb-4 text-center">Sign Up</h1>
-                <form>
                     <!-- แถวที่ 1 - ชื่อและนามสกุล -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
@@ -128,4 +125,3 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
