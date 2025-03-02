@@ -49,7 +49,7 @@
             <!-- ส่วนขวา - ฟอร์มสร้างกิจกรรม -->
             <div class="col-lg-8">
                 <h1 class="mb-4 text-center">สร้างกิจกรรม</h1>
-                <form action="crateAct" method="post">
+                <form action="createAct" method="post">
                     <input type="hidden" name="user_id" value="<?= $_SESSION['student_id'] ?>">
 
                     <!-- ชื่อกิจกรรม -->

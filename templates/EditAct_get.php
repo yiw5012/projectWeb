@@ -51,18 +51,19 @@
 
                 <div class="col-lg-8">
                     <h1 class="mb-4 text-center">แก้ไขกิจกรรม</h1>
-                    <form>
+                    <form action="EditAct" method="post"> 
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-12">
                                 <label class="form-label">ชื่อกิจกรรม</label>
-                                <input type="text" class="form-control" value="<?= $row->title_event ?>">
+                                <input name="title" type="text" class="form-control" value="<?= $row->title_event ?>">
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">รายละเอียด</label>
                             <input
+                              name="detil"
                                 type="text"
                                 class="form-control"
                                 value="<?= $row->description ?>" ;
@@ -73,12 +74,12 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">สถานที่จัดกิจกรรม</label>
-                                <input value="<?= $row->location ?>" ;
+                                <input name="localion" value="<?= $row->location ?>" ;
                                     type="text" class="form-control" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">วันที่จัดกิจกรรม</label>
-                                <input value="<?= $row->date_time ?>" ;
+                                <input name="date_time" value="<?= $row->date_time ?>" ;
                                     type="date" class="form-control" required>
                             </div>
                         </div>
@@ -86,21 +87,19 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">data_for_register</label>
-                                <input type="" value="<?= $row->date_reg ?>" ;
+                                <input type=""  value="<?= $row->date_reg ?>" ;
                                     class="form-control" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">จำนวที่รับ</label>
-                                <input value="<?= $row->max_capacity ?>" ;
+                                <input name="max" value="<?= $row->max_capacity ?>" ;
                                     type="number" class="form-control" required>
                             </div>
+
                         </div>
-
+                                 <input  name="id" value="<?= $row->event_id ?>" type="hidden">
                     <?php endwhile; ?>
-
-
-                    <button type="submit" class="btn btn-success w-100 py-2">ยืนยันการแก้ไข้</button>
-
+                    <button  type="submit"  class="btn btn-success w-100 py-2">ยืนยันการแก้ไข้</button>
                     </form>
                 </div>
         </div>

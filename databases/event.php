@@ -116,3 +116,19 @@ function getEventby_id($event_id): mysqli_result|bool
     return $result;
 
 }
+
+function update_byid($title_event, $description, $date_time,$location,$max_capacity, $event_id): bool {
+    $conn = getConnection();
+    $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ? WHERE event_id = ?';
+    $stmt = $conn->prepare($sql);
+
+    if (!$stmt) {
+        return false; // If statement preparation fails
+    }
+
+    $stmt->bind_param('ssssii', $title_event, $description, $date_time, $max_capacity,$location ,$event_id);
+    $success = $stmt->execute();
+
+    // Check if any row was actually updated
+    return $stmt->affected_rows > 0;
+}
