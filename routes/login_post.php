@@ -8,7 +8,7 @@ if($result){
     $_SESSION['student_id'] = $result['user_id'];
     renderView('main_get', $result);
 }else{
-    $_SESSION['message'] = 'Email or Password invalid';
+    echo'Email or Password invalid';
     renderView('login_get');
     unset($_SESSION['message']);
     unset($_SESSION['timestamp']);
