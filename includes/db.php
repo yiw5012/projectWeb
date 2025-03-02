@@ -4,7 +4,7 @@ function getConnection():mysqli
 {
     $hostname = 'localhost';
     $dbName = 'projectweb';
-    $username = 'projectweb';
+    $username = 'projectweb2';
     $password = '1234';
     $conn = new mysqli($hostname, $username, $password, $dbName);
     if ($conn->connect_error) {
