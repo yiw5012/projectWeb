@@ -1,5 +1,5 @@
 <form action="crateAct" method="post">
-<h5>Name Act</h5>
+<h3>Name Act</h3>
 <input type="text" name="actname" id="actname"><br>
 
 <h5>detail act</h5>
@@ -11,7 +11,7 @@
 <h5>date_in_event</h5>
 <input type="date" name="dateevent" id="dateevent"><br>
 
-<h5>data_for_register</h5>
+<h3>data_for_register</h3>
 <input type="text" name="dateregisterend" id="dateregisterend"><br>
 
 <h5>max_for_register</h5>
@@ -23,7 +23,6 @@
 <button type="submit"  name="user_id" value="<?= $_SESSION['student_id'] ?>" >crate_event</button>    
 </form>
 <!-- value="<?= $_SESSION['user_id'] ?>" -->
-  
 
 
 

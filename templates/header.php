@@ -72,7 +72,7 @@
                             <a class="nav-link" href="/createAct">สร้างกิจกรรม</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/events">Event</a>
+                            <a class="nav-link" href="/profile">Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-danger" href="/logout">ออกจากระบบ</a>

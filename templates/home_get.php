@@ -70,53 +70,76 @@
         button {
             width: 200px;
         }
+  .button {
+            width: 100px;
+        background: rgb(255, 255, 255);
+        line-height: 40px;
+        border-radius: 20px;
+        padding: 0px 20px;
+        border: none;
+        margin: 10px 0px;
+    }
+    .input{
+        background: rgba(255, 255, 255, 0.3);
+        height: 40px;
+        line-height: 40px;
+        border-radius: 20px;
+        padding: 0px 20px;
+        border: none;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .input-icon {
+        position: relative;
+    }
+
+    .input-icon i {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        color: white;
+    }
     </style>
 </head>
 
 <body>
     <?php if (isset($_SESSION['timestamp'])): ?>
         <section>
-        <!-- Search sesction -->
-        <form action="home" method="get">
-        <input type="text" name="keyword" />
-        <button type="submit">Search</button>
+    <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
+        <form  style="margin-left: 100px;;" action="home" method="get">
+        <input class="input" type="text" name="keyword" />
+        <button class="button" type="submit">Search</button>
     </form>
-    <!-- end search section -->
+    <br>
+    <div class="container">
+        <div class="row">
+            <?php while ($row = $data['events']->fetch_object()): ?>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body">
+                            <h5 class="card-title"> <?= $row->title_event ?> </h5>
+                            <p class="card-text"> <?= $row->description ?> </p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>รหัสกิจกรรม:</strong> <?= $row->event_id ?></li>
+                                <li class="list-group-item"><strong>เวลากิจกรรม:</strong> <?= $row->date_time ?></li>
+                                <li class="list-group-item"><strong>สถานที่:</strong> <?= $row->location ?></li>
+                                <li class="list-group-item"><strong>จำนวนคน:</strong> <?= $row->max_capacity ?></li>
+                                <li class="list-group-item"><strong>ผู้สร้าง:</strong> <?= $row->created_by ?></li>
+                            </ul>
+                            <div class="mt-3 text-center">
+                                <a href="#" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+</section>
 
-            <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
-            <div class="container">
-                <table class="table table-bordered table-striped text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>รหัสกิจกรรม</th>
-                            <th>ชื่อกิจกรรม</th>
-                            <th>รายละเอียด</th>
-                            <th>เวลากิจกรรม</th>
-                            <th>สถานที่</th>
-                            <th>จำนวนคน</th>
-                            <th>ผู้สร้าง</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $data['events']->fetch_object()): ?>
-                            <tr>
-                                <td><?= $row->event_id ?></td>
-                                <td><?= $row->title_event ?></td>
-                                <td><?= $row->description ?></td>
-                                <td><?= $row->date_time ?></td>
-                                <td><?= $row->location ?></td>
-                                <td><?= $row->max_capacity ?></td>
-                                <td><?= $row->created_by ?></td>
-                                <td>
-                                    <!-- สามารถเพิ่มปุ่มหรือลิงก์ที่นี่ถ้าต้องการ -->
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
-        </section>
     <?php else: ?>
         <section class="hero-section">
             <div>
