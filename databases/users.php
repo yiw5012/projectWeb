@@ -22,3 +22,14 @@ function getUserById(int $id):mysqli_result|bool
     return $result;
 }
 
+function getmax_userid():int {
+    $conn = getConnection();
+    $sql = 'SELECT MAX(user_id) as max_id FROM users';
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $maxid = $result->fetch_object()->max_id ?? 0;
+
+    return $maxid+1;
+}
+
