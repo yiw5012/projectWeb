@@ -38,3 +38,22 @@ function registration($event_id, $user_id)
 
     return $stmt->get_result();
 }
+
+function reject_or_accept($case, $user_id, $event_id)
+{
+    $status = 'pending';
+    $conn = getConnection();
+    $sql = 'UPDATE registration SET status = ? WHERE  user_id = ? and event_id = ?';
+
+    switch ($case) {
+        case 1:
+            $status = 'approved';
+            break;
+        case 2:
+            $status = 'rejected';
+            break;
+    }
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('sii', $status, $user_id, $event_id);
+    $stmt->execute();
+}
