@@ -122,7 +122,35 @@
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 shadow-lg">
                                 <!-- แสดงรูปภาพกิจกรรม -->
-                                <img src="<?= $row->images ?>" class="card-img-top" alt="รูปกิจกรรม">
+                                <?php
+                                $images = $row->images; // เช่น 'uploads/image1.jpg,uploads/image2.jpg'
+
+                                $imageArray = explode(',', $images); // แยกสตริงออกเป็นอาร์เรย์
+
+                                if (count($imageArray) > 1): ?>
+                                    <!-- Carousel สำหรับแสดงหลายรูปภาพ -->
+                                    <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <?php foreach ($imageArray as $index => $image): ?>
+                                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                                    <img src="<?= $image ?>" class="d-block w-100 img-thumbnail" alt="Event Image">
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                <?php else: ?>
+                                    <!-- แสดงภาพเดียวถ้ามีแค่หนึ่งรูป -->
+                                    <img src="<?= $imageArray[0] ?>" alt="Event Image" class="img-thumbnail">
+                                <?php endif; ?>
+
                                 <div class="card-body">
                                     <h5 class="card-title"><?= $row->title_event ?></h5>
                                     <p class="card-text"><?= $row->description ?></p>
@@ -143,6 +171,7 @@
                         </div>
 
                     <?php endwhile; ?>
+
                 </div>
             </div>
         </section>

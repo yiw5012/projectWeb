@@ -36,7 +36,7 @@
             <!-- ส่วนซ้าย - อัปโหลดรูปภาพ -->
             <form action="register" method="post" enctype="multipart/form-data">
                 <div class="col-lg-4">
-                    <div class="upload-section" onclick="document.getElementById('image').click()">
+                    <div class="upload-section" onclick="document.getElementById('images').click()">
                         <img id="previewImage" class="img-fluid">
                         <div id="uploadText" class="text-center text-muted">
                             <i class="bi bi-cloud-upload fs-1"></i><br>

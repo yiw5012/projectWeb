@@ -44,19 +44,19 @@
             <!-- ส่วนขวา - ฟอร์มสร้างกิจกรรม -->
             <div class="col-lg-8">
                 <h1 class="mb-4 text-center">สร้างกิจกรรม</h1>
-<form action="createact" method="post" enctype="multipart/form-data">
+                <form action="createact" method="post" enctype="multipart/form-data">
                     <!-- #region -->
 
                     <div class="col-lg-4">
-                    <div class="upload-section" onclick="document.getElementById('image').click()">
-                        <img id="previewImage" class="img-fluid">
-                        <div id="uploadText" class="text-center text-muted">
-                            <i class="bi bi-cloud-upload fs-1"></i><br>
-                            คลิกเพื่ออัปโหลดรูปภาพ
+                        <div class="upload-section" onclick="document.getElementById('image').click()">
+                            <img id="previewImage" class="img-fluid">
+                            <div id="uploadText" class="text-center text-muted">
+                                <i class="bi bi-cloud-upload fs-1"></i><br>
+                                คลิกเพื่ออัปโหลดรูปภาพ
+                            </div>
                         </div>
-                    </div>
-                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
-                </div>
+                        <input type="file" name="images[]" accept="image/*" multiple>
+                        </div>
                     <input type="hidden" name="user_id" value="<?= $_SESSION['student_id'] ?>">
 
                     <!-- ชื่อกิจกรรม -->
