@@ -20,7 +20,7 @@ function getEventsByKeyword(string $keyword): mysqli_result|bool
     $result = $stmt->get_result();
     return $result;
 }
-function CreateACT($id, $actname, $detailact, $location, $dateevent, $maxregister) {
+function CreateACT($id, $actname, $detailact, $location, $dateevent, $maxregister,$images) {
     $conn = getConnection();
     $date_reg = date('Y-m-d'); 
 
@@ -29,11 +29,9 @@ function CreateACT($id, $actname, $detailact, $location, $dateevent, $maxregiste
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     $stmt = $conn->prepare($sql);
 
-    // ตัวแปรสำหรับค่าที่จะถูกส่งเข้า bind_param
-    $images = NULL; // กรณีที่ไม่ใช้ค่า images หรือคุณสามารถส่งค่าของรูปภาพในตัวแปรนี้ได้
-    
+    // ตัวแปรสำหรับค่าที่จะถูกส่งเข้า bind_param    
     // ปรับการใช้ bind_param ให้ถูกต้อง
-    $stmt->bind_param("sssssisi", $actname, $detailact, $dateevent, $date_reg, $location, $maxregister, $id, $images);
+    $stmt->bind_param("sssssiis", $actname, $detailact, $dateevent, $date_reg, $location, $maxregister, $id, $images);
 
     try {
         // ดำเนินการ SQL
@@ -131,4 +129,18 @@ function update_byid($title_event, $description, $date_time,$location,$max_capac
 
     // Check if any row was actually updated
     return $stmt->affected_rows > 0;
+}
+
+function editEvent_if_creater($event_id, $user_id) {
+    $conn = getConnection();
+    $sql = 'SELECT event_id, created_by WHERE event_id = ? and created_by = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii',$event_id, $user_id);
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }

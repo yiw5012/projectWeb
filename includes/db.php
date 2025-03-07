@@ -2,10 +2,10 @@
 
 function getConnection():mysqli
 {
-    $hostname = 'gonggang.net';
-    $dbName = 'u910454988_moodeng';
-    $username = 'u910454988_moodeng';
-    $password = '@4.a5jZn';
+    $hostname = 'localhost';
+    $dbName = 'projectweb';
+    $username = 'projectweb5';
+    $password = '1234';
     $conn = new mysqli($hostname, $username, $password, $dbName);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);

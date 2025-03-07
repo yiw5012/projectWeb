@@ -70,76 +70,82 @@
         button {
             width: 200px;
         }
-  .button {
+
+        .button {
             width: 100px;
-        background: rgb(255, 255, 255);
-        line-height: 40px;
-        border-radius: 20px;
-        padding: 0px 20px;
-        border: none;
-        margin: 10px 0px;
-    }
-    .input{
-        background: rgba(255, 255, 255, 0.3);
-        height: 40px;
-        line-height: 40px;
-        border-radius: 20px;
-        padding: 0px 20px;
-        border: none;
-        margin-bottom: 20px;
-        color: white;
-    }
+            background: rgb(255, 255, 255);
+            line-height: 40px;
+            border-radius: 20px;
+            padding: 0px 20px;
+            border: none;
+            margin: 10px 0px;
+        }
 
-    .input-icon {
-        position: relative;
-    }
+        .input {
+            background: rgba(255, 255, 255, 0.3);
+            height: 40px;
+            line-height: 40px;
+            border-radius: 20px;
+            padding: 0px 20px;
+            border: none;
+            margin-bottom: 20px;
+            color: white;
+        }
 
-    .input-icon i {
-        position: absolute;
-        top: 50%;
-        left: 15px;
-        transform: translateY(-50%);
-        color: white;
-    }
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: white;
+        }
     </style>
 </head>
 
 <body>
     <?php if (isset($_SESSION['timestamp'])): ?>
         <section>
-    <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
-        <form  style="margin-left: 100px;;" action="home" method="get">
-        <input class="input" type="text" name="keyword" />
-        <button class="button" type="submit">Search</button>
-    </form>
-    <br>
-    <div class="container">
-        <div class="row">
-            <?php while ($row = $data['events']->fetch_object()): ?>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-lg">
-                        <div class="card-body">
-                            <h5 class="card-title"> <?= $row->title_event ?> </h5>
-                            <p class="card-text"> <?= $row->description ?> </p>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>รหัสกิจกรรม:</strong> <?= $row->event_id ?></li>
-                                <li class="list-group-item"><strong>เวลากิจกรรม:</strong> <?= $row->date_time ?></li>
-                                <li class="list-group-item"><strong>สถานที่:</strong> <?= $row->location ?></li>
-                                <li class="list-group-item"><strong>จำนวนคน:</strong> <?= $row->max_capacity ?></li>
-                                <li class="list-group-item"><strong>ผู้สร้าง:</strong> <?= $row->created_by ?></li>
-                            </ul>
-                            <div class="mt-3 text-center">
-                                <a href="/registration?event_id=<?= $row->event_id ?>" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
-                            <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-primary">แก้ไขกิจกรรม</a>
+            <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
+            <form style="margin-left: 100px;;" action="home" method="get">
+                <input class="input" type="text" name="keyword" />
+                <button class="button" type="submit">Search</button>
+            </form>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <?php while ($row = $data['events']->fetch_object()): ?>
+
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-lg">
+                                <!-- แสดงรูปภาพกิจกรรม -->
+                                <img src="<?= $row->images ?>" class="card-img-top" alt="รูปกิจกรรม">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $row->title_event ?></h5>
+                                    <p class="card-text"><?= $row->description ?></p>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>รหัสกิจกรรม:</strong> <?= $row->event_id ?></li>
+                                        <li class="list-group-item"><strong>เวลากิจกรรม:</strong> <?= $row->date_time ?></li>
+                                        <li class="list-group-item"><strong>สถานที่:</strong> <?= $row->location ?></li>
+                                        <li class="list-group-item"><strong>จำนวนคน:</strong> <?= $row->max_capacity ?></li>
+                                        <li class="list-group-item"><strong>ผู้สร้าง:</strong> <?= $row->created_by ?></li>
+                                    </ul>
+                                    <!-- ปุ่มต่างๆ -->
+                                    <div class="mt-3 d-flex justify-content-between">
+                                        <a href="/registration?event_id=<?= $row->event_id ?>" class="btn btn-primary w-48">เข้าร่วมกิจกรรม</a>
+                                        <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning w-48">แก้ไขกิจกรรม</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                    <?php endwhile; ?>
                 </div>
-            <?php endwhile; ?>
-        </div>
-    </div>
-</section>
+            </div>
+        </section>
 
     <?php else: ?>
         <section class="hero-section">

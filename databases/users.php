@@ -32,13 +32,13 @@ function getmax_userid():int {
 
     return $maxid+1;
 }
-function insertuser($name, $email, $password, $gender, $age) {
+function insertuser($name, $email, $password, $gender, $age,$image) {
     $role = "";
         $conn = getConnection();
-        $sql = 'INSERT INTO users ( name, email, password, gender, age) VALUES (?,?,?,?,?)';
+        $sql = 'INSERT INTO users ( name, email, password, gender, age,image) VALUES (?,?,?,?,?,?)';
         $stmt = $conn->prepare($sql);
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt->bind_param('ssssi', $name, $email, $hash, $gender, $age);
+        $stmt->bind_param('ssssis', $name, $email, $hash, $gender, $age,$image);
         $stmt->execute();
     
     }

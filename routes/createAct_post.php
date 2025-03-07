@@ -12,9 +12,14 @@ $maxregister = isset($_POST["maxregister"]) ? (int)$_POST["maxregister"] : 0;
 $id = $_SESSION['student_id'];
 
 // ตรวจสอบว่าฟังก์ชัน ADDEnroll มีอยู่หรือไม่
+$uploadDir = 'uploads/';
+$fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+$uploadFile = $uploadDir . uniqid() . '.' . $fileExtension;
+
+if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
 
 // ส่งค่าที่ตรวจสอบแล้วไปที่ ADDEnroll
-$res = createAct($id, $actname, $detailact, $location, $dateevent, $maxregister);
+$res = createAct($id, $actname, $detailact, $location, $dateevent, $maxregister,$uploadFile);
 
 if ($res) {
 
@@ -25,7 +30,7 @@ if ($res) {
     $_SESSION['message'] = 'คุณได้ลงทะเบียนกิจกรรมนี้แล้ว หรือเกิดข้อผิดพลาด';
     header('Location: /');
     exit;
-}
+}}
 // $_POST["actname"];
 // $_POST["detailact"];
 // $_POST["location"];

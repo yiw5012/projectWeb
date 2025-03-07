@@ -4,6 +4,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,10 +21,12 @@
             background: #f8f9fa;
             border-radius: 8px;
         }
+
         .upload-section:hover {
             border-color: #0d6efd;
             background: #f1f8ff;
         }
+
         #previewImage {
             max-width: 100%;
             max-height: 280px;
@@ -31,25 +34,29 @@
         }
     </style>
 </head>
+
 <body class="bg-light">
     <div class="container py-5">
         <div class="row g-5">
             <!-- ส่วนซ้าย - อัปโหลดรูปภาพ -->
-            <div class="col-lg-4">
-                <div class="upload-section" onclick="document.getElementById('fileInput').click()">
-                    <img id="previewImage" class="img-fluid">
-                    <div id="uploadText" class="text-center text-muted">
-                        <i class="bi bi-cloud-upload fs-1"></i><br>
-                        คลิกเพื่ออัปโหลดรูปภาพ
-                    </div>
-                </div>
-                <input type="file" id="fileInput" hidden accept="image/*" onchange="previewImage(event)" name="image">
-            </div>
+
 
             <!-- ส่วนขวา - ฟอร์มสร้างกิจกรรม -->
             <div class="col-lg-8">
                 <h1 class="mb-4 text-center">สร้างกิจกรรม</h1>
-                <form action="createact" method="post">
+<form action="createact" method="post" enctype="multipart/form-data">
+                    <!-- #region -->
+
+                    <div class="col-lg-4">
+                    <div class="upload-section" onclick="document.getElementById('image').click()">
+                        <img id="previewImage" class="img-fluid">
+                        <div id="uploadText" class="text-center text-muted">
+                            <i class="bi bi-cloud-upload fs-1"></i><br>
+                            คลิกเพื่ออัปโหลดรูปภาพ
+                        </div>
+                    </div>
+                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                </div>
                     <input type="hidden" name="user_id" value="<?= $_SESSION['student_id'] ?>">
 
                     <!-- ชื่อกิจกรรม -->
@@ -61,14 +68,13 @@
                     <!-- รายละเอียด -->
                     <div class="mb-3">
                         <label class="form-label h5">รายละเอียดกิจกรรม</label>
-                        <textarea 
-                            class="form-control" 
-                            name="detailact" 
+                        <textarea
+                            class="form-control"
+                            name="detailact"
                             id="detailact"
                             rows="5"
                             style="min-height: 120px; resize: vertical;"
-                            required
-                        ></textarea>
+                            required></textarea>
                     </div>
 
                     <!-- สถานที่และวันที่ -->
@@ -116,8 +122,9 @@
             reader.readAsDataURL(event.target.files[0]);
         }
     </script>
-    
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
