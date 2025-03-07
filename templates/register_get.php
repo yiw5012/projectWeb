@@ -34,16 +34,16 @@
     <div class="container py-5">
         <div class="row g-5">
             <!-- ส่วนซ้าย - อัปโหลดรูปภาพ -->
-            <form action="register" method="post">
+            <form action="register" method="post" enctype="multipart/form-data">
                 <div class="col-lg-4">
-                    <div class="upload-section" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-section" onclick="document.getElementById('image').click()">
                         <img id="previewImage" class="img-fluid">
                         <div id="uploadText" class="text-center text-muted">
                             <i class="bi bi-cloud-upload fs-1"></i><br>
                             คลิกเพื่ออัปโหลดรูปภาพ
                         </div>
                     </div>
-                    <input type="file" id="fileInput" hidden accept="image/*" onchange="previewImage(event)">
+                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
                 </div>
                 <!-- ส่วนกลางและขวา - ฟอร์มสมัครสมาชิก -->
                 <div class="col-lg-8">
