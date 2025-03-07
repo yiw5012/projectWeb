@@ -130,3 +130,17 @@ function update_byid($title_event, $description, $date_time,$location,$max_capac
     // Check if any row was actually updated
     return $stmt->affected_rows > 0;
 }
+
+function editEvent_if_creater($event_id, $user_id) {
+    $conn = getConnection();
+    $sql = 'SELECT event_id, created_by WHERE event_id = ? and created_by = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii',$event_id, $user_id);
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
