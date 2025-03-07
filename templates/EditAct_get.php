@@ -51,7 +51,7 @@
 
                 <div class="col-lg-8">
                     <h1 class="mb-4 text-center">แก้ไขกิจกรรม</h1>
-                    <form action="EditAct" method="post"> 
+                    <form action="editact" method="post"> 
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-12">

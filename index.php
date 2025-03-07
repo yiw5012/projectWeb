@@ -16,7 +16,10 @@ require_once INCLUDES_DIR . '/view.php';
 require_once INCLUDES_DIR . '/db.php';
 
 // Call dispatch to handle requests
-const PUBLIC_ROUTES = ['/', '/login','/register'];
+const PUBLIC_ROUTES = ['/', '/login','/register','/profile'];
+error_log("Requested URI: " . $_SERVER['REQUEST_URI']); // Debug ดู URI ที่เข้ามา
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (in_array(strtolower($_SERVER['REQUEST_URI']), PUBLIC_ROUTES)) {
     dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

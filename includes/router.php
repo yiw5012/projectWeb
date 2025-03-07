@@ -23,7 +23,7 @@ function normalizeUri(string $uri): string
 function notFound()
 {
     http_response_code(404);
-    echo "404 Not Found";
+    echo "404 Not Found 0";
     exit;
 }
 

@@ -1,2 +1,2 @@
 <?php
-renderView("createAct_get");
+renderView("createact_get");

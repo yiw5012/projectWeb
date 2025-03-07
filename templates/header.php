@@ -66,13 +66,13 @@
                 <ul class="navbar-nav ms-auto">
                     <?php if (isset($_SESSION['timestamp'])): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/">หน้าแรก</a>
+                            <a  href="/">หน้าแรก</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/createAct">สร้างกิจกรรม</a>
+                            <a class="nav-link" href="/createact">สร้างกิจกรรม</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Request">Request</a>
+                            <a class="nav-link" href="/request">Request</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-danger" href="/logout">ออกจากระบบ</a>

@@ -131,7 +131,7 @@
                             </ul>
                             <div class="mt-3 text-center">
                                 <a href="/registration?event_id=<?= $row->event_id ?>" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
-                            <a href="/EditAct?event_id=<?= $row->event_id ?>" class="btn btn-primary">แก้ไขกิจกรรม</a>
+                            <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-primary">แก้ไขกิจกรรม</a>
                             </div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
             <div>
                 <h1>ยินดีต้อนรับสู่เว็บไซต์ของเรา!</h1>
                 <p>เราพร้อมที่จะให้บริการคุณด้วยประสบการณ์ที่ดีที่สุด</p>
-                <button onclick="window.location.href='/login'" class="btn-custom">Login</button>
+                <button onclick="window.location.href='/login'" class="btn-custom">Loginn</button>
                 <button onclick="window.location.href='/register'" class="btn-custom">Register</button>
             </div>
         </section>
