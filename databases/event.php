@@ -233,3 +233,17 @@ function editEvent_if_creater($event_id, $user_id)
         return false;
     }
 }
+function select_all_Event_if_creater($user_id): mysqli_result|bool {
+    $conn = getConnection();
+    $sql = 'SELECT * FROM events where created_by = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return false;
+    }
+}

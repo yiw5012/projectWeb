@@ -57,3 +57,18 @@ function reject_or_accept($case, $event_id,$user_id)
     $stmt->bind_param('sii', $status, $user_id, $event_id);
     $stmt->execute();
 }
+
+function event_ever_regis($user_id): mysqli_result|bool {
+    $conn = getConnection();
+    $sql = 'SELECT * FROM registration WHERE user_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return false;
+    }
+}

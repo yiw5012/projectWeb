@@ -38,44 +38,48 @@
 <body class="bg-light">
     <div class="container py-5">
         <div class="row g-4">
-        <?php while ($row = $data['events']->fetch_object()): ?>
+        <?php while ($row = $data['user']->fetch_object()): ?>
 
             <!-- ข้อมูลผู้ใช้ -->
             <div class="col-md-4">
                 <div class="section-card user-info-section p-4">
-                <img src="https://c.files.bbci.co.uk/16F65/production/_107335049_epahi054463889.jpg" alt="Profile Picture" class="img-fluid w-100 mb-3" style="border-radius: 8px;">
+                <img src="<?= $row->image ?>" class="rounded-circle border border-light shadow-sm mb-3" height="150" alt="Profile Image">
                     <div class="row">
                         <div class="col-md-8">
                             <dl class="row mb-0">
                                 <dt class="col-sm-5">ชื่อ: </dt>
-                                <dd class="col-sm-7">-----</dd>
+                                <dd class="col-sm-7"><?= $row->name?></dd>
 
                                 <dt class="col-sm-5">อีเมล:</dt>
-                                <dd class="col-sm-7">------</dd>
+                                <dd class="col-sm-7"><?= $row->email?></dd>
 
                                 <dt class="col-sm-5">เบอร์โทร:</dt>
                                 <dd class="col-sm-7">-------</dd>
 
                                 <dt class="col-sm-5">อายุ:</dt>
-                                <dd class="col-sm-7">-------</dd>
+                                <dd class="col-sm-7"><?= $row->age?></dd>
 
                                 <dt class="col-sm-5">เพศ:</dt>
-                                <dd class="col-sm-7">-------</dd>
+                                <dd class="col-sm-7"><?= $row->gender?></dd>
                             </dl>
                         </div>
                     </div>
-                    <button class="student-tag badge bg-primary">แก้ไข้</button>
+                    <button class="student-tag badge bg-primary" name="editprofile" value="<?= $row->user_id?>">แก้ไข</button>
                 </div>
             </div>
-
+            <?php endwhile; ?>
             <!-- กิจกรรมที่เข้าร่วม -->
             <div class="col-md-4">
                 <div class="section-card p-4 bg-white">
                     <h3 class="section-title">กิจกรรมที่เข้าร่วม</h3>
-                    <!-- <ul class="activity-list">
-                        <li class="mb-2"><strong>ดนตรีในสวน H.M. Song</strong></li>
-                        <li><strong>อว.บรรเลขเพลชออฟต์</strong></li>
-                    </ul> -->
+                    <?php while ($row = $data['everevent']->fetch_object()) { ?>
+                        <dl class="row mb-0">
+                                <dt class="col-sm-5">Event ID: </dt>
+                                <dd class="col-sm-7"><?= $row->event_id?></dd>
+
+                            </dl>
+
+                    <?php }?>
                 </div>
             </div>
 
@@ -83,6 +87,15 @@
             <div class="col-md-4">
                 <div class="section-card p-4 bg-white">
                     <h3 class="section-title">กิจกรรมที่สร้าง</h3>
+                    <?php while ($row = $data['allevent']->fetch_object()) { ?>
+
+                        <dl class="row mb-0">
+                                <dt class="col-sm-5">Event name: </dt>
+                                <dd class="col-sm-7"><?= $row->title_event?></dd>
+
+                            </dl>
+
+                        <?php } ?>
                     <!-- <div class="list-group">
                         <a href="#" class="list-group-item list-group-item-action border-0 py-2">“โครงการร่วมบริษัทโลหิ��”</a>
                         <a href="#" class="list-group-item list-group-item-action border-0 py-2">รายละเอียดที่ของผู้จัด</a>
@@ -92,7 +105,7 @@
             </div>
         </div>
     </div>
-    <?php endwhile; ?>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
