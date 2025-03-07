@@ -115,16 +115,16 @@ function getEventby_id($event_id): mysqli_result|bool
 
 }
 
-function update_byid($title_event, $description, $date_time,$location,$max_capacity, $event_id): bool {
+function update_byid($title_event, $description, $date_time,$location,$max_capacity, $event_id,$images): bool {
     $conn = getConnection();
-    $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ? WHERE event_id = ?';
+    $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ?,images = ? WHERE event_id = ?';
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
         return false; // If statement preparation fails
     }
 
-    $stmt->bind_param('ssssii', $title_event, $description, $date_time, $max_capacity,$location ,$event_id);
+    $stmt->bind_param('ssssisi', $title_event, $description, $date_time, $max_capacity,$location,$images ,$event_id);
     $success = $stmt->execute();
 
     // Check if any row was actually updated
@@ -133,9 +133,10 @@ function update_byid($title_event, $description, $date_time,$location,$max_capac
 
 function editEvent_if_creater($event_id, $user_id) {
     $conn = getConnection();
-    $sql = 'SELECT event_id, created_by WHERE event_id = ? and created_by = ?';
+    $sql = 'SELECT event_id, created_by from events WHERE event_id = ? and created_by = ?';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ii',$event_id, $user_id);
+    $stmt->execute();
 
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
@@ -143,4 +144,5 @@ function editEvent_if_creater($event_id, $user_id) {
     } else {
         return false;
     }
+
 }

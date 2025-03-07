@@ -9,7 +9,12 @@ $id = trim($_POST["id"] ?? "");
 
 // ตรวจสอบว่าฟังก์ชัน ADDEnroll มีอยู่หรือไม่
 // ส่งค่าที่ตรวจสอบแล้วไปที่ ADDEnroll
-$res = update_byid($title, $detil, $date_time,$max,$location,$id);
+$uploadDir = 'uploads/';
+$fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+$uploadFile = $uploadDir . uniqid() . '.' . $fileExtension;
+
+if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+$res = update_byid($title, $detil, $date_time,$max,$location,$id,$uploadFile);
 
 if ($res) {
     $_SESSION['message'] = 'การแก้ไขนสำเร็จ';
@@ -19,4 +24,5 @@ if ($res) {
     $_SESSION['message'] = 'เกิดข้อผิดพลาด';
     header('Location: /');
     exit;
+}
 }

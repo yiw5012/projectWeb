@@ -39,20 +39,22 @@
         <div class="row g-5">
             <?php while ($row = $data['result']->fetch_object()): ?>
 
-                <div class="col-lg-4">
-                    <div class="upload-section" onclick="document.getElementById('fileInput').click()">
-                        <img id="previewImage" class="img-fluid">
-                        <div id="uploadText" class="text-center text-muted">
-                            <i class="bi bi-cloud-upload fs-1"></i><br>
-                            คลิกเพื่ออัปโหลดรูปภาพ
-                        </div>
-                    </div>
-                    <input type="file" id="fileInput" hidden accept="image/*" onchange="previewImage(event)">
-                </div>
+
 
                 <div class="col-lg-8">
                     <h1 class="mb-4 text-center">แก้ไขกิจกรรม</h1>
-                    <form action="editact" method="post"> 
+                    <form action="editact" method="post" enctype="multipart/form-data">
+
+                        <div class="col-lg-4">
+                            <div class="upload-section" onclick="document.getElementById('image').click()">
+                                <img id="previewImage" class="img-fluid">
+                                <div id="uploadText" class="text-center text-muted">
+                                    <i class="bi bi-cloud-upload fs-1"></i><br>
+                                    คลิกเพื่ออัปโหลดรูปภาพ
+                                </div>
+                            </div>
+                            <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                        </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-12">
@@ -64,7 +66,7 @@
                         <div class="mb-3">
                             <label class="form-label">รายละเอียด</label>
                             <input
-                              name="detil"
+                                name="detil"
                                 type="text"
                                 class="form-control"
                                 value="<?= $row->description ?>" ;
@@ -88,7 +90,7 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">data_for_register</label>
-                                <input type=""  value="<?= $row->date_reg ?>" ;
+                                <input type="" value="<?= $row->date_reg ?>" ;
                                     class="form-control" required>
                             </div>
                             <div class="col-md-6">
@@ -98,9 +100,9 @@
                             </div>
 
                         </div>
-                                 <input  name="id" value="<?= $row->event_id ?>" type="hidden">
+                        <input name="id" value="<?= $row->event_id ?>" type="hidden">
                     <?php endwhile; ?>
-                    <button  type="submit"  class="btn btn-success w-100 py-2">ยืนยันการแก้ไข้</button>
+                    <button type="submit" class="btn btn-success w-100 py-2">ยืนยันการแก้ไข้</button>
                     </form>
                 </div>
         </div>

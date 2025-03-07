@@ -39,7 +39,7 @@ function registration($event_id, $user_id)
     return $stmt->get_result();
 }
 
-function reject_or_accept($case, $user_id, $event_id)
+function reject_or_accept($case, $event_id,$user_id)
 {
     $status = 'pending';
     $conn = getConnection();
