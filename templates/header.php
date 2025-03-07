@@ -69,6 +69,9 @@
                             <a class="nav-link" href="/">หน้าแรก</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/createact">สร้างกิจกรรม</a>
                         </li>
                         <li class="nav-item">

@@ -38,6 +38,8 @@
 <body class="bg-light">
     <div class="container py-5">
         <div class="row g-4">
+        <?php while ($row = $data['events']->fetch_object()): ?>
+
             <!-- ข้อมูลผู้ใช้ -->
             <div class="col-md-4">
                 <div class="section-card user-info-section p-4">
@@ -90,6 +92,8 @@
             </div>
         </div>
     </div>
+    <?php endwhile; ?>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
