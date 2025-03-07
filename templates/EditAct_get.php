@@ -53,7 +53,7 @@
                                     คลิกเพื่ออัปโหลดรูปภาพ
                                 </div>
                             </div>
-                            <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                            <input  value="<?= $row->images ?>" type="file" name="images[]" accept="image/*" multiple onchange="previewImage(event)">
                         </div>
 
                         <div class="row g-3 mb-3">

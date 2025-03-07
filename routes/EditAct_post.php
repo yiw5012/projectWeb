@@ -9,11 +9,24 @@ $id = trim($_POST["id"] ?? "");
 
 // ตรวจสอบว่าฟังก์ชัน ADDEnroll มีอยู่หรือไม่
 // ส่งค่าที่ตรวจสอบแล้วไปที่ ADDEnroll
-$uploadDir = 'uploads/';
-$fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-$uploadFile = $uploadDir . uniqid() . '.' . $fileExtension;
+$uploadedImages = [];
+if (isset($_FILES['image']) && $_FILES['image']['error'][0] == 0) {
+    // วนลูปเพื่อจัดการไฟล์ที่อัปโหลด
+    for ($i = 0; $i < count($_FILES['image']['name']); $i++) {
+        $tmp_name = $_FILES['image']['tmp_name'][$i];
+        $imageName = uniqid() . '-' . $_FILES['image']['name'][$i];
+        $uploadDir = 'uploads/';
+        $uploadFile = $uploadDir . $imageName;
 
-if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+        // ตรวจสอบการอัปโหลดและย้ายไฟล์
+        if (move_uploaded_file($tmp_name, $uploadFile)) {
+            $uploadedImages[] = $uploadFile; // เก็บที่อยู่ของไฟล์ที่อัปโหลด
+        }
+    }
+}
+
+$images = implode(',', $uploadedImages); // รวมที่อยู่ของไฟล์ภาพหลายไฟล์เป็นสตริงเดียว
+
 $res = update_byid($title, $detil, $date_time,$max,$location,$id,$uploadFile);
 
 if ($res) {
@@ -24,5 +37,4 @@ if ($res) {
     $_SESSION['message'] = 'เกิดข้อผิดพลาด';
     header('Location: /');
     exit;
-}
 }

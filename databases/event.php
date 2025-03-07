@@ -164,7 +164,45 @@ function getEventby_id($event_id): mysqli_result|bool
 }
 
 function update_byid($title_event, $description, $date_time, $location, $max_capacity, $event_id, $images): bool
-{
+{ 
+    if (isset($_FILES['images']) && count($_FILES['images']['name']) > 0) {
+        for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+            $tmp_name = $_FILES['images']['tmp_name'][$i];
+            $imageName = uniqid() . '-' . $_FILES['images']['name'][$i];
+            $uploadDir = 'uploads/';
+            $uploadFile = $uploadDir . $imageName;
+
+            // ตรวจสอบว่าไฟล์มีข้อผิดพลาดหรือไม่
+            if ($_FILES['images']['error'][$i] != 0) {
+                echo "เกิดข้อผิดพลาดในการอัปโหลดไฟล์ที่ " . $_FILES['images']['name'][$i];
+                return false;
+            }
+
+            // ตรวจสอบประเภทไฟล์
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];  // สามารถเพิ่มประเภทที่ต้องการได้
+            if (!in_array($_FILES['images']['type'][$i], $allowedTypes)) {
+                echo "ไฟล์ " . $_FILES['images']['name'][$i] . " ไม่สามารถอัปโหลดได้ เพราะไม่ใช่ประเภทที่รองรับ.";
+                return false;
+            }
+
+            // ตรวจสอบขนาดไฟล์
+            if ($_FILES['images']['size'][$i] > 5000000) {  // 5MB
+                echo "ไฟล์ " . $_FILES['images']['name'][$i] . " มีขนาดใหญ่เกินไป.";
+                return false;
+            }
+
+            // อัปโหลดไฟล์
+            if (move_uploaded_file($tmp_name, $uploadFile)) {
+                $uploadedImages[] = $uploadFile;
+            } else {
+                echo "ไม่สามารถอัปโหลดไฟล์ " . $_FILES['images']['name'][$i];
+                return false;
+            }
+        }
+    }
+
+    // รวมที่อยู่ของไฟล์หลายไฟล์เป็นสตริงเดียว
+    $images = implode(',', $uploadedImages);
     $conn = getConnection();
     $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ?,images = ? WHERE event_id = ?';
     $stmt = $conn->prepare($sql);
