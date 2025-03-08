@@ -25,12 +25,14 @@ if (isset($_FILES['image']) && $_FILES['image']['error'][0] == 0) {
     }
 }
 
-$images = implode(',', $uploadedImages); // รวมที่อยู่ของไฟล์ภาพหลายไฟล์เป็นสตริงเดียว
 
-$res = update_byid($title, $detil, $date_time,$max,$location,$id,$uploadFile);
+// กำหนดค่า $images ให้เป็น NULL หรือค่าว่างหากไม่มีการอัปโหลดไฟล์
+$images = !empty($uploadedImages) ? implode(',', $uploadedImages) : NULL;
+
+$res = update_byid($title, $detil, $date_time,  $location,$max, $id, $images);
 
 if ($res) {
-    $_SESSION['message'] = 'การแก้ไขนสำเร็จ';
+    $_SESSION['message'] = 'การแก้ไขสำเร็จ';
     header('Location: /home');
     exit;
 } else {

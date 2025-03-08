@@ -47,14 +47,17 @@
 
                         <div class="col-lg-4">
                             <div class="upload-section" onclick="document.getElementById('image').click()">
-                                <img id="previewImage" class="img-fluid">
+                                <!-- ถ้ารูปมีการอัปเดต จะแสดง preview -->
+                                <img id="previewImage" class="img-fluid" src="<?= $row->images ? $row->images : '' ?>" style="max-width: 100%; max-height: 280px;">
                                 <div id="uploadText" class="text-center text-muted">
                                     <i class="bi bi-cloud-upload fs-1"></i><br>
                                     คลิกเพื่ออัปโหลดรูปภาพ
                                 </div>
                             </div>
-                            <input  value="<?= $row->images ?>" type="file" name="images[]" accept="image/*" multiple onchange="previewImage(event)">
+                            <input id="image" type="file" name="images[]" accept="image/*" multiple onchange="previewImage(event)">
                         </div>
+
+
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-12">

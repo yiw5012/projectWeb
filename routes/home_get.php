@@ -8,17 +8,19 @@ if (isset($_SESSION['student_id']) && is_numeric($_SESSION['student_id'])) {
 }
 // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
 $events=getEvent();
+$keyword = $_GET['keyword'] ?? '';
+$searchType = $_GET['search_type'] ?? 'title'; // ถ้าไม่เลือกจะใช้ค่าเริ่มต้นเป็น 'title'
 
-if (!isset($_GET['keyword'])) {
-    renderView('home_get', array('events'=>$events));
-} elseif ($_GET['keyword'] == '') {
-    $events=getEvent();
-    renderView('home_get', array('result' => $result,'events'=>$events));
-} else {
-    $events = getEventsByKeyword($_GET['keyword']);
-    renderView('home_get', array('result' => $result,'events'=>$events));
-
+if ($keyword !== '') {
+    if ($searchType === 'title') {
+        $events = getEventsByKeyword($keyword);
+    } elseif ($searchType === 'date') {
+        $events = getEventsByDate($keyword);
+    }
 }
+
+renderView('home_get', array('result' => $result, 'events' => $events));
+
 //renderView('home_get', array('result' => $result, 'events' => $events));
 
 // เรียกใช้งานฟังก์ชัน renderView เพื่อแสดงผลในหน้า home_get.php

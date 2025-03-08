@@ -20,6 +20,15 @@ function getEventsByKeyword(string $keyword): mysqli_result|bool
     $result = $stmt->get_result();
     return $result;
 }
+function getEventsByDate(string $date): mysqli_result|bool
+{
+    $conn = getConnection();
+    $sql = 'SELECT * FROM events WHERE DATE(date_time) = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $date);
+    $stmt->execute();
+    return $stmt->get_result();
+}
 function CreateACT($id, $actname, $detailact, $location, $dateevent, $maxregister, $images)
 {
     $conn = getConnection(); // ตรวจสอบการเชื่อมต่อ
@@ -164,30 +173,19 @@ function getEventby_id($event_id): mysqli_result|bool
 }
 
 function update_byid($title_event, $description, $date_time, $location, $max_capacity, $event_id, $images): bool
-{ 
+{
+    // ตรวจสอบว่ามีการอัปโหลดไฟล์ใหม่หรือไม่
     if (isset($_FILES['images']) && count($_FILES['images']['name']) > 0) {
+        $uploadedImages = [];
         for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
             $tmp_name = $_FILES['images']['tmp_name'][$i];
             $imageName = uniqid() . '-' . $_FILES['images']['name'][$i];
             $uploadDir = 'uploads/';
             $uploadFile = $uploadDir . $imageName;
 
-            // ตรวจสอบว่าไฟล์มีข้อผิดพลาดหรือไม่
+            // ตรวจสอบข้อผิดพลาดในไฟล์
             if ($_FILES['images']['error'][$i] != 0) {
                 echo "เกิดข้อผิดพลาดในการอัปโหลดไฟล์ที่ " . $_FILES['images']['name'][$i];
-                return false;
-            }
-
-            // ตรวจสอบประเภทไฟล์
-            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];  // สามารถเพิ่มประเภทที่ต้องการได้
-            if (!in_array($_FILES['images']['type'][$i], $allowedTypes)) {
-                echo "ไฟล์ " . $_FILES['images']['name'][$i] . " ไม่สามารถอัปโหลดได้ เพราะไม่ใช่ประเภทที่รองรับ.";
-                return false;
-            }
-
-            // ตรวจสอบขนาดไฟล์
-            if ($_FILES['images']['size'][$i] > 5000000) {  // 5MB
-                echo "ไฟล์ " . $_FILES['images']['name'][$i] . " มีขนาดใหญ่เกินไป.";
                 return false;
             }
 
@@ -199,24 +197,27 @@ function update_byid($title_event, $description, $date_time, $location, $max_cap
                 return false;
             }
         }
+        // รวมที่อยู่ของไฟล์หลายไฟล์เป็นสตริงเดียว
+        $images = implode(',', $uploadedImages);
     }
 
-    // รวมที่อยู่ของไฟล์หลายไฟล์เป็นสตริงเดียว
-    $images = implode(',', $uploadedImages);
+    // เชื่อมต่อฐานข้อมูลและอัปเดตข้อมูล
     $conn = getConnection();
-    $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ?,images = ? WHERE event_id = ?';
+    $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ?, images = ? WHERE event_id = ?';
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
-        return false; // If statement preparation fails
+        return false; // ถ้าการเตรียมคำสั่ง SQL ล้มเหลว
     }
 
-    $stmt->bind_param('ssssisi', $title_event, $description, $date_time, $max_capacity, $location, $images, $event_id);
-    $success = $stmt->execute();
+    // ผูกพารามิเตอร์และทำการอัปเดต
+    $stmt->bind_param('ssssisi', $title_event, $description, $date_time, $location, $max_capacity, $images, $event_id);
+    $stmt->execute();
 
-    // Check if any row was actually updated
+    // ตรวจสอบว่ามีแถวข้อมูลที่ได้รับการอัปเดตจริงหรือไม่
     return $stmt->affected_rows > 0;
 }
+
 
 function editEvent_if_creater($event_id, $user_id)
 {

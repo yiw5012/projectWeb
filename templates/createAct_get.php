@@ -86,15 +86,13 @@
                         <div class="col-md-6">
                             <label class="form-label h5">วันที่จัดกิจกรรม</label>
                             <input type="date" class="form-control" name="dateevent" id="dateevent" required>
+
                         </div>
                     </div>
 
                     <!-- ข้อมูลลงทะเบียน -->
                     <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label h5">ข้อมูลการลงทะเบียน</label>
-                            <input type="text" class="form-control" name="dateregisterend" id="dateregisterend" required>
-                        </div>
+                        
                         <div class="col-md-6">
                             <label class="form-label h5">จำนวนที่รับ</label>
                             <input type="number" class="form-control" name="maxregister" id="maxregister" required>

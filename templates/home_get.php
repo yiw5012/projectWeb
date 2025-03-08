@@ -103,6 +103,34 @@
             transform: translateY(-50%);
             color: white;
         }
+
+        .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card img,
+        .carousel-inner img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            /* ป้องกันภาพผิดสัดส่วน */
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            /* ทำให้การ์ดขยายเท่ากัน */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .btn {
+            width: 48%;
+        }
     </style>
 </head>
 
@@ -110,46 +138,42 @@
     <?php if (isset($_SESSION['timestamp'])): ?>
         <section>
             <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
-            <form style="margin-left: 100px;;" action="home" method="get">
-                <input class="input" type="text" name="keyword" />
-                <button class="button" type="submit">Search</button>
+            <form action="home" method="get" style="display: flex; align-items: center;  max-width: 500px; margin-left: 20px; border: 1px solid #ddd; border-radius: 5px; padding: 5px;">
+                <select  name="search_type" style="border: none; background: transparent; padding: 5px;">
+                    <option value="title">ค้นหาตามชื่อกิจกรรม</option>
+                    <option value="date">ค้นหาตามเวลากิจกรรม</option>
+                </select>
+                <input type="text" name="keyword" placeholder="ค้นหา..." style="flex: 1; border: none; padding: 5px; outline: none;">
+                <button type="submit" style="background: orange; border: none; padding: 5px 10px; cursor: pointer;">
+                    🔍
+                </button>
             </form>
             <br>
             <div class="container">
                 <div class="row">
                     <?php while ($row = $data['events']->fetch_object()): ?>
-
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 shadow-lg">
-                                <!-- แสดงรูปภาพกิจกรรม -->
                                 <?php
-                                $images = $row->images; // เช่น 'uploads/image1.jpg,uploads/image2.jpg'
-
-                                $imageArray = explode(',', $images); // แยกสตริงออกเป็นอาร์เรย์
-
-                                if (count($imageArray) > 1): ?>
-                                    <!-- Carousel สำหรับแสดงหลายรูปภาพ -->
-                                    <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            <?php foreach ($imageArray as $index => $image): ?>
-                                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                                    <img src="<?= $image ?>" class="d-block w-100 img-thumbnail" alt="Event Image">
-                                                </div>
-                                            <?php endforeach; ?>
-                                        </div>
+                                $images = explode(',', $row->images); // แยกภาพ
+                                ?>
+                                <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <?php foreach ($images as $index => $image): ?>
+                                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                                <img src="<?= $image ?>" class="d-block w-100 img-thumbnail" alt="Event Image">
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <?php if (count($images) > 1): ?>
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
+                                            <span class="carousel-control-prev-icon"></span>
                                         </button>
                                         <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
+                                            <span class="carousel-control-next-icon"></span>
                                         </button>
-                                    </div>
-                                <?php else: ?>
-                                    <!-- แสดงภาพเดียวถ้ามีแค่หนึ่งรูป -->
-                                    <img src="<?= $imageArray[0] ?>" alt="Event Image" class="img-thumbnail">
-                                <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
 
                                 <div class="card-body">
                                     <h5 class="card-title"><?= $row->title_event ?></h5>
@@ -161,16 +185,15 @@
                                         <li class="list-group-item"><strong>จำนวนคน:</strong> <?= $row->max_capacity ?></li>
                                         <li class="list-group-item"><strong>ผู้สร้าง:</strong> <?= $row->created_by ?></li>
                                     </ul>
-                                    <!-- ปุ่มต่างๆ -->
                                     <div class="mt-3 d-flex justify-content-between">
-                                        <a href="/registration?event_id=<?= $row->event_id ?>" class="btn btn-primary w-48">เข้าร่วมกิจกรรม</a>
-                                        <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning w-48">แก้ไขกิจกรรม</a>
+                                        <a href="/registration?event_id=<?= $row->event_id ?>" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
+                                        <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning">แก้ไขกิจกรรม</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     <?php endwhile; ?>
+
 
                 </div>
             </div>
