@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,105 +10,174 @@
         .section-card {
             border: 1px solid #dee2e6;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            background: white;
+            padding: 20px;
+            transition: box-shadow 0.3s ease-in-out;
         }
+
+        .section-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
         .user-info-section {
             background-color: #f8f9fa;
-            position: relative;
-            padding-bottom: 50px;
+            text-align: center;
+            padding: 30px;
+            border-radius: 8px;
         }
-        .student-tag {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            font-size: 0.9rem;
+
+        .user-info-section img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #fff;
         }
+
         .section-title {
             color: #2d3436;
             border-bottom: 2px solid #74b9ff;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
+
         .activity-list {
-            list-style-type: '- ';
-            padding-left: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        /* ปรับรูปแบบปุ่ม */
+        .btn-primary,
+        .btn-warning {
+            font-size: 1rem;
+            padding: 8px 16px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #0984e3;
+            border-color: #0984e3;
+        }
+
+        .btn-primary:hover {
+            background-color: #74b9ff;
+            border-color: #74b9ff;
+        }
+
+        .btn-warning {
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
+
+        .btn-warning:hover {
+            background-color: #f1c40f;
+            border-color: #f1c40f;
+        }
+
+        .list-group-item {
+            font-size: 1.1rem;
+            padding: 15px;
+            border: none;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            width: 100px;
+            background: rgb(248, 236, 5);
+            line-height: 40px;
+            border-radius: 20px;
+            padding: 0px 20px;
+            border: none;
+            margin: 10px 0px;
         }
     </style>
 </head>
+
 <body class="bg-light">
     <div class="container py-5">
         <div class="row g-4">
-        <?php while ($row = $data['user']->fetch_object()): ?>
+            <?php while ($row = $data['user']->fetch_object()): ?>
+                <div class="col-md-4">
+                    <div class="section-card user-info-section">
+                        <img src="<?= $row->image ?>" alt="Profile Image">
+                        <h5 class="mt-3"><?= $row->name ?></h5>
+                        <p class="text-muted">Email: <?= $row->email ?></p>
+                        <p class="text-muted">เพศ: <?= $row->gender ?> | อายุ: <?= $row->age ?></p>
+                        <button class="btn btn-primary mt-2" name="editprofile" value="<?= $row->user_id ?>">แก้ไขข้อมูล</button>
+                        <a class="btn btn-warning mt-2" href="/request">Request</a>
 
-            <!-- ข้อมูลผู้ใช้ -->
-            <div class="col-md-4">
-                <div class="section-card user-info-section p-4">
-                <img src="<?= $row->image ?>" class="rounded-circle border border-light shadow-sm mb-3" height="150" alt="Profile Image">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <dl class="row mb-0">
-                                <dt class="col-sm-5">ชื่อ: </dt>
-                                <dd class="col-sm-7"><?= $row->name?></dd>
-
-                                <dt class="col-sm-5">อีเมล:</dt>
-                                <dd class="col-sm-7"><?= $row->email?></dd>
-
-                                <dt class="col-sm-5">เบอร์โทร:</dt>
-                                <dd class="col-sm-7">-------</dd>
-
-                                <dt class="col-sm-5">อายุ:</dt>
-                                <dd class="col-sm-7"><?= $row->age?></dd>
-
-                                <dt class="col-sm-5">เพศ:</dt>
-                                <dd class="col-sm-7"><?= $row->gender?></dd>
-                            </dl>
-                        </div>
+                        <h3 class="section-title mt-4">กิจกรรมที่ขอเข้าร่วม</h3>
+                        <ul class="list-group">
+                            <?php
+                            if ($data['ever_pending'] && $data['ever_pending']->num_rows > 0) {
+                                while ($row = $data['ever_pending']->fetch_object()) { ?>
+                                    <li class="list-group-item text-danger"><?= $row->title_event ?></li>
+                                <?php }
+                            } else {
+                                echo "<li class='list-group-item text-danger'>ไม่มีข้อมูลกิจกรรมที่ขอเข้าร่วม</li>";
+                            }
+                            ?>
+                        </ul>
                     </div>
-                    <button class="student-tag badge bg-primary" name="editprofile" value="<?= $row->user_id?>">แก้ไข</button>
                 </div>
-            </div>
             <?php endwhile; ?>
-            <!-- กิจกรรมที่เข้าร่วม -->
+
             <div class="col-md-4">
-                <div class="section-card p-4 bg-white">
+                <div class="section-card">
                     <h3 class="section-title">กิจกรรมที่เข้าร่วม</h3>
-                    <?php while ($row = $data['everevent']->fetch_object()) { ?>
-                        <dl class="row mb-0">
-                                <dt class="col-sm-5">Event ID: </dt>
-                                <dd class="col-sm-7"><?= $row->event_id?></dd>
-
-                            </dl>
-
-                    <?php }?>
+                    <ul class="list-group">
+                        <?php
+                        if ($data['everevent'] && $data['everevent']->num_rows > 0) {
+                            while ($row = $data['everevent']->fetch_object()) { ?>
+                                <li class="list-group-item">✅ <?= $row->title_event ?></li>
+                            <?php }
+                        } else {
+                            echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่เข้าร่วม</li>";
+                        }
+                        ?>
+                    </ul>
+                    <h3 class="section-title mt-4">กิจกรรมที่โดนปฎิเสธ</h3>
+                    <ul class="list-group">
+                        <?php
+                        if ($data['ever_rejected'] && $data['ever_rejected']->num_rows > 0) {
+                            while ($row = $data['ever_rejected']->fetch_object()) { ?>
+                                <li class="list-group-item text-danger">❌ <?= $row->title_event ?></li>
+                            <?php }
+                        } else {
+                            echo "<li class='list-group-item text-danger'>ไม่มีข้อมูลกิจกรรมที่โดนปฎิเสธ</li>";
+                        }
+                        ?>
+                    </ul>
                 </div>
             </div>
 
-            <!-- กิจกรรมที่สร้าง -->
             <div class="col-md-4">
-                <div class="section-card p-4 bg-white">
+                <div class="section-card">
                     <h3 class="section-title">กิจกรรมที่สร้าง</h3>
-                    <?php while ($row = $data['allevent']->fetch_object()) { ?>
-
-                        <dl class="row mb-0">
-                                <dt class="col-sm-5">Event name: </dt>
-                                <dd class="col-sm-7"><?= $row->title_event?></dd>
-
-                            </dl>
-
-                        <?php } ?>
-                    <!-- <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action border-0 py-2">“โครงการร่วมบริษัทโลหิ��”</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 py-2">รายละเอียดที่ของผู้จัด</a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 py-2 text-danger">แก้ไข</a>
-                    </div> -->
+                    <ul class="list-group">
+                        <?php
+                        if ($data['allevent'] && $data['allevent']->num_rows > 0) {
+                            while ($row = $data['allevent']->fetch_object()) { ?>
+                                <li class="list-group-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+                                    📌 <?= $row->title_event ?>
+                                    <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">แก้ไข</a>
+                                </li>
+                            <?php }
+                        } else {
+                            echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่สร้าง</li>";
+                        }
+                        ?>
+                    </ul>
                 </div>
             </div>
+
         </div>
     </div>
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -58,11 +58,56 @@ function reject_or_accept($case, $event_id,$user_id)
     $stmt->execute();
 }
 
-function event_ever_regis($user_id): mysqli_result|bool {
+
+function event_ever_rejected($user_id): mysqli_result|bool {
+    $status = 'rejected';
+
     $conn = getConnection();
-    $sql = 'SELECT * FROM registration WHERE user_id = ?';
+    $sql = 'SELECT * FROM 
+    registration 
+    INNER JOIN events ON registration.event_id = events.event_id
+    WHERE user_id = ? and status = ?';
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $user_id);
+    $stmt->bind_param('is', $user_id,$status);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return false;
+    }
+}
+function event_ever_pending($user_id): mysqli_result|bool {
+    $status = 'pending';
+
+    $conn = getConnection();
+    $sql = 'SELECT * FROM 
+    registration 
+    INNER JOIN events ON registration.event_id = events.event_id
+    WHERE user_id = ? and status = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('is', $user_id,$status);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return false;
+    }
+}
+
+function event_ever_regis($user_id): mysqli_result|bool {
+    $status = 'approved';
+
+    $conn = getConnection();
+    $sql = 'SELECT * FROM 
+    registration 
+    INNER JOIN events ON registration.event_id = events.event_id
+    WHERE user_id = ? and status = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('is', $user_id,$status);
     $stmt->execute();
 
     $result = $stmt->get_result();

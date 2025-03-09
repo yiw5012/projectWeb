@@ -187,7 +187,6 @@
                                     </ul>
                                     <div class="mt-3 d-flex justify-content-between">
                                         <a href="/registration?event_id=<?= $row->event_id ?>" class="btn btn-primary">เข้าร่วมกิจกรรม</a>
-                                        <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning">แก้ไขกิจกรรม</a>
                                     </div>
                                 </div>
                             </div>
