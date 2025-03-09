@@ -174,49 +174,37 @@ function getEventby_id($event_id): mysqli_result|bool
 
 function update_byid($title_event, $description, $date_time, $location, $max_capacity, $event_id, $images): bool
 {
-    // ตรวจสอบว่ามีการอัปโหลดไฟล์ใหม่หรือไม่
-    if (isset($_FILES['images']) && count($_FILES['images']['name']) > 0) {
-        $uploadedImages = [];
-        for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
-            $tmp_name = $_FILES['images']['tmp_name'][$i];
-            $imageName = uniqid() . '-' . $_FILES['images']['name'][$i];
-            $uploadDir = 'uploads/';
-            $uploadFile = $uploadDir . $imageName;
-
-            // ตรวจสอบข้อผิดพลาดในไฟล์
-            if ($_FILES['images']['error'][$i] != 0) {
-                echo "เกิดข้อผิดพลาดในการอัปโหลดไฟล์ที่ " . $_FILES['images']['name'][$i];
-                return false;
-            }
-
-            // อัปโหลดไฟล์
-            if (move_uploaded_file($tmp_name, $uploadFile)) {
-                $uploadedImages[] = $uploadFile;
-            } else {
-                echo "ไม่สามารถอัปโหลดไฟล์ " . $_FILES['images']['name'][$i];
-                return false;
-            }
-        }
-        // รวมที่อยู่ของไฟล์หลายไฟล์เป็นสตริงเดียว
-        $images = implode(',', $uploadedImages);
+    $conn = getConnection();
+    
+    if (!$conn) {
+        return false; // ถ้าการเชื่อมต่อล้มเหลว
     }
 
-    // เชื่อมต่อฐานข้อมูลและอัปเดตข้อมูล
-    $conn = getConnection();
-    $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ?, images = ? WHERE event_id = ?';
-    $stmt = $conn->prepare($sql);
+    // ถ้าผู้ใช้ไม่ได้อัปโหลดรูปใหม่ ให้ใช้รูปเดิม
+    if ($images === null) {
+        $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ? WHERE event_id = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssii', $title_event, $description, $date_time, $location, $max_capacity, $event_id);
+    } else {
+        $sql = 'UPDATE events SET title_event = ?, description = ?, date_time = ?, location = ?, max_capacity = ?, images = ? WHERE event_id = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssisi', $title_event, $description, $date_time, $location, $max_capacity, $images, $event_id);
+    }
 
     if (!$stmt) {
-        return false; // ถ้าการเตรียมคำสั่ง SQL ล้มเหลว
+        return false; // ถ้าการเตรียม SQL ล้มเหลว
     }
 
-    // ผูกพารามิเตอร์และทำการอัปเดต
-    $stmt->bind_param('ssssisi', $title_event, $description, $date_time, $location, $max_capacity, $images, $event_id);
     $stmt->execute();
+    $updated = $stmt->affected_rows > 0;
 
-    // ตรวจสอบว่ามีแถวข้อมูลที่ได้รับการอัปเดตจริงหรือไม่
-    return $stmt->affected_rows > 0;
+    // ปิด statement และ connection
+    $stmt->close();
+    $conn->close();
+
+    return $updated;
 }
+
 
 
 function editEvent_if_creater($event_id, $user_id)

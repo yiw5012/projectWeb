@@ -1,35 +1,44 @@
 <?php
-// รับค่าจากฟอร์ม และใช้ trim() เพื่อลบช่องว่าง
+session_start(); // ต้องมีเพื่อใช้ $_SESSION
+
+// รับค่าจากฟอร์มและใช้ trim() เพื่อลบช่องว่าง
 $title = trim($_POST["title"] ?? "");
 $detil = trim($_POST["detil"] ?? "");
-$location = trim($_POST["localion"] ?? "");
+$location = trim($_POST["localion"] ?? ""); // แก้ไขชื่อให้ตรงกัน
 $date_time = trim($_POST["date_time"] ?? "");
 $max = trim($_POST["max"] ?? "");
 $id = trim($_POST["id"] ?? "");
+$old_images = trim($_POST['old_image'] ?? "");
 
-// ตรวจสอบว่าฟังก์ชัน ADDEnroll มีอยู่หรือไม่
-// ส่งค่าที่ตรวจสอบแล้วไปที่ ADDEnroll
+// ตรวจสอบว่ามีการอัปโหลดไฟล์หรือไม่
 $uploadedImages = [];
-if (isset($_FILES['image']) && $_FILES['image']['error'][0] == 0) {
-    // วนลูปเพื่อจัดการไฟล์ที่อัปโหลด
-    for ($i = 0; $i < count($_FILES['image']['name']); $i++) {
-        $tmp_name = $_FILES['image']['tmp_name'][$i];
-        $imageName = uniqid() . '-' . $_FILES['image']['name'][$i];
-        $uploadDir = 'uploads/';
-        $uploadFile = $uploadDir . $imageName;
+if (isset($_FILES['images']) && is_array($_FILES['images']['name'])) {
+    $uploadDir = 'uploads/';
+    foreach ($_FILES['images']['name'] as $index => $name) {
+        $tmp_name = $_FILES['images']['tmp_name'][$index];
+        $error = $_FILES['images']['error'][$index];
 
-        // ตรวจสอบการอัปโหลดและย้ายไฟล์
-        if (move_uploaded_file($tmp_name, $uploadFile)) {
-            $uploadedImages[] = $uploadFile; // เก็บที่อยู่ของไฟล์ที่อัปโหลด
+        if ($error === UPLOAD_ERR_OK) {
+            $imageType = mime_content_type($tmp_name);
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+            if (in_array($imageType, $allowedTypes)) {
+                $imageName = uniqid() . '-' . basename($name);
+                $uploadFile = $uploadDir . $imageName;
+
+                if (move_uploaded_file($tmp_name, $uploadFile)) {
+                    $uploadedImages[] = $uploadFile;
+                }
+            }
         }
     }
 }
 
+// กำหนดค่า $images ให้เป็น NULL หรือใช้รูปเดิมหากไม่มีไฟล์ใหม่
+$images = !empty($uploadedImages) ? implode(',', $uploadedImages) : $old_images;
 
-// กำหนดค่า $images ให้เป็น NULL หรือค่าว่างหากไม่มีการอัปโหลดไฟล์
-$images = !empty($uploadedImages) ? implode(',', $uploadedImages) : NULL;
-
-$res = update_byid($title, $detil, $date_time,  $location,$max, $id, $images);
+// เรียกใช้ฟังก์ชันอัปเดตข้อมูล
+$res = update_byid($title, $detil, $date_time, $location, $max, $id, $images);
 
 if ($res) {
     $_SESSION['message'] = 'การแก้ไขสำเร็จ';
