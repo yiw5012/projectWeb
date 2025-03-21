@@ -203,7 +203,7 @@
             <div>
                 <h1>ยินดีต้อนรับสู่เว็บไซต์ของเรา!</h1>
                 <p>เราพร้อมที่จะให้บริการคุณด้วยประสบการณ์ที่ดีที่สุด</p>
-                <button onclick="window.location.href='/login'" class="btn-custom">Loginn</button>
+                <button onclick="window.location.href='/login'" class="btn-custom">Login</button>
                 <button onclick="window.location.href='/register'" class="btn-custom">Register</button>
             </div>
         </section>
