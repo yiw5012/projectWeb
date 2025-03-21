@@ -127,27 +127,29 @@
 
             <div class="col-md-4">
                 <div class="section-card">
-                    <h3 class="section-title">กิจกรรมที่เข้าร่วม</h3>
+                    <h3 class="section-title mt-4">กิจกรรมที่เข้าร่วม</h3>
                     <ul class="list-group">
                         <?php
                         if ($data['everevent'] && $data['everevent']->num_rows > 0) {
-                            while ($row = $data['everevent']->fetch_object()) { ?>
-                            <?php $s = $row->user_id;
+                            while ($row = $data['everevent']->fetch_object()) {
+                                $s = $row->user_id;
                                 $f = $row->event_id;
-                                $result = otp_for_user($s, $f);
-                                var_dump($result);  // ตรวจสอบผลลัพธ์
+                                $result = otp_for_user($s, $f);  // ดึง OTP จากฐานข้อมูล
+                                var_dump($result);  // ดูผลลัพธ์ที่ได้จาก otp_for_user
+                                var_dump($result); // ดูข้อมูลทั้งหมดที่ได้รับ
 
-                                ?>
-                                <li class="list-group-item">✅ <?= $row->title_event ?> [OTP]  <?= $result['otp_used'] ?? 'ไม่มี OTP'; ?></li>
-                                
+
+                        ?>
+                                 
+                                <li class="list-group-item">✅ <?= $row->title_event ?> [OTP] <?= $result['otp_used'] ?? 'ไม่มี OTP'; ?></li>
                         <?php
-
                             }
                         } else {
                             echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่เข้าร่วม</li>";
                         }
                         ?>
                     </ul>
+
                     <h3 class="section-title mt-4">กิจกรรมที่โดนปฎิเสธ</h3>
                     <ul class="list-group">
                         <?php

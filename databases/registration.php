@@ -38,18 +38,23 @@ function registration($event_id, $user_id)
 
     return $stmt->get_result();
 }
-function registration_id_for_user($user_id): int {
+function registration_id_for_user_event($user_id, $event_id): int {
     $conn = getConnection();
-    $sql = 'SELECT registration_id FROM registration WHERE user_id = ?';
+    $sql = 'SELECT registration_id FROM registration WHERE user_id = ? AND event_id = ? LIMIT 1';
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $user_id);
+    if (!$stmt) {
+        // สามารถบันทึกข้อผิดพลาดหรือคืนค่า 0 ได้
+        return 0;
+    }
+    $stmt->bind_param('ii', $user_id, $event_id);
     $stmt->execute();
 
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
-    return $row['registration_id'] ?? 0; // Return 0 if no registration_id found
+    return $row['registration_id'] ?? 0; // คืนค่า 0 หากไม่พบข้อมูล
 }
+
 
 function reject_or_accept($case, $event_id, $user_id,$reg_id)
 {
@@ -140,6 +145,9 @@ function otp_for_user($user_id, $event_id) {
 
     $result = $stmt->get_result();
     return $result->fetch_assoc(); // Returns an associative array (or null if not found)
+
+    
+    
 }
 
 function not_allow_two($user_id, $event_id): bool {
