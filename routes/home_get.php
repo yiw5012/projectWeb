@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-
 if (isset($_SESSION['student_id']) && is_numeric($_SESSION['student_id'])) {
+    $events=getEvent();
+
     $student_id = (int) $_SESSION['student_id']; // แปลงให้เป็น int
     $result = getUserById($student_id);
-    $events=getEvent();
     $keyword = $_GET['keyword'] ?? '';
     $searchType = $_GET['search_type'] ?? 'title'; // ถ้าไม่เลือกจะใช้ค่าเริ่มต้นเป็น 'title'
-    
     if ($keyword !== '') {
         if ($searchType === 'title') {
             $events = getEventsByKeyword($keyword);
@@ -20,7 +19,6 @@ if (isset($_SESSION['student_id']) && is_numeric($_SESSION['student_id'])) {
 
 
 }else{
-    $events=getEvent();
 $keyword = $_GET['keyword'] ?? '';
 $searchType = $_GET['search_type'] ?? 'title'; // ถ้าไม่เลือกจะใช้ค่าเริ่มต้นเป็น 'title'
 
@@ -31,7 +29,9 @@ if ($keyword !== '') {
         $events = getEventsByDate($keyword);
     }
 }
-    renderView(template: 'home_get');
+var_dump($_SESSION['student_id']); // ตรวจสอบค่า
+
+renderView('home_get', array('events' => $events));
 }
 // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
 

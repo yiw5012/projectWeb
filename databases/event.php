@@ -9,6 +9,7 @@ function getEvent(): mysqli_result|bool
 
     return $result;
 }
+
 function getEventsByKeyword(string $keyword): mysqli_result|bool
 {
     $conn = getConnection();

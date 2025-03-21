@@ -115,7 +115,7 @@
                             if ($data['ever_pending'] && $data['ever_pending']->num_rows > 0) {
                                 while ($row = $data['ever_pending']->fetch_object()) { ?>
                                     <li class="list-group-item text-danger"><?= $row->title_event ?></li>
-                                <?php }
+                            <?php }
                             } else {
                                 echo "<li class='list-group-item text-danger'>ไม่มีข้อมูลกิจกรรมที่ขอเข้าร่วม</li>";
                             }
@@ -132,8 +132,17 @@
                         <?php
                         if ($data['everevent'] && $data['everevent']->num_rows > 0) {
                             while ($row = $data['everevent']->fetch_object()) { ?>
-                                <li class="list-group-item">✅ <?= $row->title_event ?></li>
-                            <?php }
+                            <?php $s = $row->user_id;
+                                $f = $row->event_id;
+                                $result = otp_for_user($s, $f);
+                                var_dump($result);  // ตรวจสอบผลลัพธ์
+
+                                ?>
+                                <li class="list-group-item">✅ <?= $row->title_event ?> [OTP]  <?= $result['otp_used'] ?? 'ไม่มี OTP'; ?></li>
+                                
+                        <?php
+
+                            }
                         } else {
                             echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่เข้าร่วม</li>";
                         }
@@ -145,7 +154,7 @@
                         if ($data['ever_rejected'] && $data['ever_rejected']->num_rows > 0) {
                             while ($row = $data['ever_rejected']->fetch_object()) { ?>
                                 <li class="list-group-item text-danger">❌ <?= $row->title_event ?></li>
-                            <?php }
+                        <?php }
                         } else {
                             echo "<li class='list-group-item text-danger'>ไม่มีข้อมูลกิจกรรมที่โดนปฎิเสธ</li>";
                         }
@@ -165,7 +174,7 @@
                                     📌 <?= $row->title_event ?>
                                     <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">แก้ไข</a>
                                 </li>
-                            <?php }
+                        <?php }
                         } else {
                             echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่สร้าง</li>";
                         }

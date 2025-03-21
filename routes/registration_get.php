@@ -1,5 +1,11 @@
 <?php
-registration($_GET['event_id'],$_SESSION['student_id']);
+$allow = not_allow_two($_SESSION['student_id'],$_GET['event_id']);
+if($allow){
+
+}else{
+    registration($_GET['event_id'],$_SESSION['student_id']);
+}
+//registration($_GET['event_id'],$_SESSION['student_id']);
 // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
 $result = getUserById($_SESSION['student_id']);
 $events=getEvent();
@@ -16,7 +22,6 @@ if (!isset($_GET['keyword'])) {
 }
 // เรียกใช้งานฟังก์ชัน renderView เพื่อแสดงผลในหน้า home_get.php
 
-    renderView(template: "home_get");
 
 
 

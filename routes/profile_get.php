@@ -8,7 +8,6 @@ $ever_rejected = event_ever_rejected($_SESSION['student_id']);
 $ever_pending = event_ever_pending($_SESSION['student_id']);
 
 
-
 renderView('profile_get', array(
     'user' => $user,
     'allevent' => $allevent,
