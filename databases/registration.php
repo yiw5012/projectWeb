@@ -199,34 +199,33 @@ function event_ever_regis($user_id): mysqli_result|bool
     }
 }
 
-function statistics_for_all($event_id, array $data = []) {
-	$data_for_statistics = [];
-	$male = 0;
-	$female = 0;
-	$avg_old = 0;
-	$count = 0;
-	
-	$permit = ($event_id === '') ? -1 : $event_id;
- 
-	while($row = $data['event']->fetch_object()) {
-	
-	if($permit == -1) {
+function statistics_for_all(array $data = []) {
+    $data_for_statistics = [];
+    $male = 0;
+    $female = 0;
+    $avg_old = 0;
+    $count = 0;
 
-	}else {
-		if($row->event_id != $permit) continue;
-	}
-	$count +=1;
-	if($row->gender == 'male') { 
-	$male +=1;
-	}elseif($row->gender == 'female') {
-	$female +=1;
-	}
-	$avg_old += $row->age;
-	}
-	
-	$avg_old = ($count > 0) ? $avg_old / $count : 0;
-	array_push($data_for_statistics, $male, $female, $avg_old);
-	
-	return $data_for_statistics;
+    if (!isset($data['event']) || $data['event']->num_rows == 0) {
+        // If no data is found, return default statistics
+        return [$male, $female, $avg_old];
+    }
 
+    while ($row = $data['event']->fetch_object()) {
+        $count += 1;
+
+        if ($row->gender == 'male') {
+            $male += 1;
+        } elseif ($row->gender == 'female') {
+            $female += 1;
+        }
+
+        $avg_old += $row->age;
+    }
+
+    // Calculate average age
+    $avg_old = ($count > 0) ? $avg_old / $count : 0;
+
+    // Return the statistics
+    return [$male, $female, $avg_old];
 }
