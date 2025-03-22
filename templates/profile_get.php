@@ -173,29 +173,62 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="section-card">
-                    <h3 class="section-title">กิจกรรมที่สร้าง</h3>
-                    <ul class="list-group">
-                        <?php
-                        if ($data['allevent'] && $data['allevent']->num_rows > 0) {
-                            while ($row = $data['allevent']->fetch_object()) { ?>
-                                <li class="list-group-item" style="display: flex; flex-direction: row; justify-content: space-between;">
-                                    📌 <?= $row->title_event ?>
-                                    📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
-                                    📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
-                                    📝 <strong>รายละเอียด:</strong> <?= $row->description ?><br>
-                                </li>
-                                    <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">แก้ไข</a>
-                                </li>
-                        <?php }
-                        } else {
-                            echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่สร้าง</li>";
-                        }
-                        ?>
-                    </ul>
-                </div>
-            </div>
+ <div class="col-md-4">
+    <div class="section-card" >
+        <h3 class="section-title">กิจกรรมที่สร้าง</h3>
+        <ul class="list-group">
+            <?php
+            if ($data['allevent'] && $data['allevent']->num_rows > 0) {
+                while ($row = $data['allevent']->fetch_object()) { ?>
+                    <li class="list-group-item" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                        <div>
+                            <!-- แสดงภาพกิจกรรม -->
+                            <?php
+                               
+                               if (empty($row->images)) {
+                                   echo "<p class='text-danger'>ไม่มีรูปภาพ</p>";
+                                   $images = []; // กำหนดเป็นอาร์เรย์ว่างเพื่อป้องกันข้อผิดพลาด
+                               } else {
+                                   $images = explode(',', $row->images);
+                               }
+                          
+                               ?>
+                               <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
+                                   <div class="carousel-inner">
+                                       <?php foreach ($images as $index => $image): ?>
+                                           <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                               <img src="<?= $image ?>" class="d-block w-100 img-thumbnail" alt="Event Image">
+                                           </div>
+                                       <?php endforeach; ?>
+                                   </div>
+                                   <?php if (count($images) > 1): ?>
+                                       <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="prev">
+                                           <span class="carousel-control-prev-icon"></span>
+                                       </button>
+                                       <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="next">
+                                           <span class="carousel-control-next-icon"></span>
+                                       </button>
+                                   <?php endif; ?>
+                               </div>                            
+                            📌 <?= $row->title_event ?><br>
+                            📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
+                            📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
+                            📝 <strong>รายละเอียด:</strong> <?= $row->description ?>
+                        </div>
+                    </li>
+                    <div>
+                        <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">แก้ไข</a>
+
+                        </div>
+                <?php }
+            } else {
+                echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่สร้าง</li>";
+            }
+            ?>
+        </ul>
+    </div>
+</div>
+
 
         </div>
     </div>
