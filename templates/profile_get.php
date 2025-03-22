@@ -273,10 +273,10 @@
                     <div>
                         <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">แก้ไข</a>
                         <a href="/check?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">เช็คOTP</a>
-                        <a href="/detil?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">รายละเอียด</a>
+                        <a href="/detil?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 150px;">รายละเอียด</a>
 
 
-                        </div>
+                </div>
 
                 <?php }
             } else {

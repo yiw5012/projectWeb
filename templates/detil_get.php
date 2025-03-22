@@ -1,3 +1,11 @@
-<?
+<?php
+echo'fsfs'
+?>
+<form action="check" method="post">
 
-echo'dddd';
+              
+        <input type="text" id = 'otp'>
+         <button type="submit"></button>
+
+
+</form>
