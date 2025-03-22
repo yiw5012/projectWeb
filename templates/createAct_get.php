@@ -44,7 +44,7 @@
             <!-- ส่วนขวา - ฟอร์มสร้างกิจกรรม -->
             <div class="col-lg-8">
                 <h1 class="mb-4 text-center">สร้างกิจกรรม</h1>
-                <form action="createact" method="post" enctype="multipart/form-data">
+                <form action="createAct" method="post" enctype="multipart/form-data">
                     <!-- #region -->
 
                     <div class="col-lg-4">

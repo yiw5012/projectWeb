@@ -12,11 +12,11 @@ $maxregister = isset($_POST["maxregister"]) ? (int)$_POST["maxregister"] : 0;
 $id = $_SESSION['student_id'];
 
 $uploadedImages = [];
-if (isset($_FILES['image']) && $_FILES['image']['error'][0] == 0) {
+if (isset($_FILES['images']) && $_FILES['images']['error'][0] == 0) {
     // วนลูปเพื่อจัดการไฟล์ที่อัปโหลด
-    for ($i = 0; $i < count($_FILES['image']['name']); $i++) {
-        $tmp_name = $_FILES['image']['tmp_name'][$i];
-        $imageName = uniqid() . '-' . $_FILES['image']['name'][$i];
+    for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+        $tmp_name = $_FILES['images']['tmp_name'][$i];
+        $imageName = uniqid() . '-' . $_FILES['images']['name'][$i];
         $uploadDir = 'uploads/';
         $uploadFile = $uploadDir . $imageName;
 

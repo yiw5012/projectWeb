@@ -21,6 +21,20 @@ function getEventsByKeyword(string $keyword): mysqli_result|bool
     $result = $stmt->get_result();
     return $result;
 }
+function getEventsByDateRange(string $startDate, string $endDate): mysqli_result|bool
+{
+    $conn = getConnection();
+    // ตรวจสอบว่าช่วงวันที่ถูกต้องหรือไม่
+    if (empty($startDate) || empty($endDate)) {
+        return false; // ถ้าไม่มีช่วงเวลาหรือกรอกไม่ครบ
+    }
+    
+    $sql = 'SELECT * FROM events WHERE DATE(date_time) BETWEEN ? AND ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ss', $startDate, $endDate);
+    $stmt->execute();
+    return $stmt->get_result();
+}
 function getEventsByDate(string $date): mysqli_result|bool
 {
     $conn = getConnection();

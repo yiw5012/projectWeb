@@ -138,31 +138,35 @@
     <?php if (isset($_SESSION['timestamp'])): ?>
         <section>
             <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
-            <form action="home" method="get" style="display: flex; align-items: center;  max-width: 500px; margin-left: 20px; border: 1px solid #ddd; border-radius: 5px; padding: 5px;">
-                <select  name="search_type" style="border: none; background: transparent; padding: 5px;">
-                    <option value="title">ค้นหาตามชื่อกิจกรรม</option>
-                    <option value="date">ค้นหาตามเวลากิจกรรม</option>
-                </select>
-                <input type="text" name="keyword" placeholder="ค้นหา..." style="flex: 1; border: none; padding: 5px; outline: none;">
-                <button type="submit" style="background: orange; border: none; padding: 5px 10px; cursor: pointer;">
-                    🔍
-                </button>
-            </form>
+            <form action="home" method="get" style="display: flex; align-items: center; max-width: 500px; margin-left: 20px; border: 1px solid #ddd; border-radius: 5px; padding: 5px;">
+    <select name="search_type" style="border: none; background: transparent; padding: 5px;">
+        <option value="title">ค้นหาตามชื่อกิจกรรม</option>
+        <option value="date_range">ค้นหาตามช่วงเวลา</option>
+    </select>
+    <input type="text" name="keyword" placeholder="ค้นหา..." style="flex: 1; border: none; padding: 5px; outline: none;">
+    <input type="date" name="start_date" placeholder="เริ่มต้น" style="border: none; padding: 5px;">
+    <input type="date" name="end_date" placeholder="สิ้นสุด" style="border: none; padding: 5px;">
+    <button type="submit" style="background: orange; border: none; padding: 5px 10px; cursor: pointer;">
+        🔍
+    </button>
+</form>
+
+
             <br>
             <div class="container">
                 <div class="row">
                     <?php while ($row = $data['events']->fetch_object()): ?>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 shadow-lg">
-                            <?php
-                               
+                                <?php
+
                                 if (empty($row->images)) {
                                     echo "<p class='text-danger'>ไม่มีรูปภาพ</p>";
                                     $images = []; // กำหนดเป็นอาร์เรย์ว่างเพื่อป้องกันข้อผิดพลาด
                                 } else {
                                     $images = explode(',', $row->images);
                                 }
-                           
+
                                 ?>
                                 <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
@@ -212,7 +216,7 @@
                 <p>เราพร้อมที่จะให้บริการคุณด้วยประสบการณ์ที่ดีที่สุด</p>
                 <button onclick="window.location.href='/login'" class="btn-custom">Login</button>
                 <button onclick="window.location.href='/register'" class="btn-custom">Register</button>
-            </div>    
+            </div>
         </section>
     <?php endif; ?>
 
