@@ -228,3 +228,34 @@ function get_statistics($creator_id) {
         'avg_age' => round($result['avg_age'] ?? 0, 2) // Round for better readability
     ];
 }
+
+function get_statistics_event($creator_id) {
+    $conn = getConnection();
+    $sql = "
+        SELECT 
+            SUM(CASE WHEN users.gender = 'male' THEN 1 ELSE 0 END) AS male_count,
+            SUM(CASE WHEN users.gender = 'female' THEN 1 ELSE 0 END) AS female_count,
+            AVG(users.age) AS avg_age
+        FROM registration
+        INNER JOIN users ON registration.user_id = users.user_id
+        INNER JOIN events ON registration.event_id = events.event_id
+        WHERE events.event_id = ? AND registration.status = 'approved'
+    ";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        return false;
+    }
+
+    $stmt->bind_param('i', $creator_id);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+
+    // Ensure no null values (default to 0)
+    return [
+        'male' => $result['male_count'] ?? 0,
+        'female' => $result['female_count'] ?? 0,
+        'avg_age' => round($result['avg_age'] ?? 0, 2) // Round for better readability
+    ];
+}
+
