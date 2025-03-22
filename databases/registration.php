@@ -198,3 +198,35 @@ function event_ever_regis($user_id): mysqli_result|bool
         return false;
     }
 }
+
+function statistics_for_all($event_id, array $data = []) {
+	$data_for_statistics = [];
+	$male = 0;
+	$female = 0;
+	$avg_old = 0;
+	$count = 0;
+	
+	$permit = ($event_id === '') ? -1 : $event_id;
+ 
+	while($row = $data['event']->fetch_object()) {
+	
+	if($permit == -1) {
+
+	}else {
+		if($row->event_id != $permit) continue;
+	}
+	$count +=1;
+	if($row->gender == 'male') { 
+	$male +=1;
+	}elseif($row->gender == 'female') {
+	$female +=1;
+	}
+	$avg_old += $row->age;
+	}
+	
+	$avg_old = ($count > 0) ? $avg_old / $count : 0;
+	array_push($data_for_statistics, $male, $female, $avg_old);
+	
+	return $data_for_statistics;
+
+}
