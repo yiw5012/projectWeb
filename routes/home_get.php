@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-
+$events=getEvent();
 if (isset($_SESSION['student_id']) && is_numeric($_SESSION['student_id'])) {
     $events=getEvent();
 
@@ -29,8 +29,6 @@ if ($keyword !== '') {
         $events = getEventsByDate($keyword);
     }
 }
-var_dump($_SESSION['student_id']); // ตรวจสอบค่า
-
 renderView('home_get', array('events' => $events));
 }
 // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
