@@ -1,4 +1,10 @@
+
+
 <section class=" container my-5">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <h2 class="text-primary mb-3">คำขอเข้าร่วมกิจกรรม</h2>
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -13,6 +19,7 @@
                 </tr>
             </thead>
             <tbody>
+                <?php while($row = $data['statistics']) {}?>
 
     
             <?php while ($row = $data['result']->fetch_object()): ?>
@@ -46,7 +53,34 @@
                     </tbody>
         </table>
     </div>
+
+    <div class="container mt-4">
+    <canvas id="barChart"></canvas>
+    </div>
+
+
 </section>
+
+<script>
+    var ctx = document.getElementById('barChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Male', 'Female', 'old_avg'],
+            datasets: [{
+                label: 'Number of People',
+                data: [<?= $$statistics[0] ?>, <?= $$statistics[1] ?>, <?= $$statistics[2] ?>],
+                backgroundColor: ['blue', 'pink', 'red'] // change color here
+                
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
 
 <script>
     function confirmSubmission() {
