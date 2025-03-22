@@ -69,7 +69,7 @@
             labels: ['Male', 'Female', 'old_avg'],
             datasets: [{
                 label: 'Number of People',
-                data: [<?= $$statistics[0] ?>, <?= $$statistics[1] ?>, <?= $$statistics[2] ?>],
+                data: [<?= $statistics[0] ?>, <?= $statistics[1] ?>, <?= $statistics[2] ?>],
                 backgroundColor: ['blue', 'pink', 'red'] // change color here
                 
             }]
