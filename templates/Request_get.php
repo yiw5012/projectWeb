@@ -19,7 +19,6 @@
                 </tr>
             </thead>
             <tbody>
-                <?php while($row = $data['statistics']) {}?>
 
     
             <?php while ($row = $data['result']->fetch_object()): ?>
@@ -66,7 +65,7 @@
     var chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Male', 'Female', 'old_avg'],
+            labels: ['Male', 'Female', 'Average Age'],
             datasets: [{
                 label: 'Number of People',
                 data: [<?= $statistics[0] ?>, <?= $statistics[1] ?>, <?= $statistics[2] ?>],
