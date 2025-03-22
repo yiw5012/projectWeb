@@ -199,33 +199,32 @@ function event_ever_regis($user_id): mysqli_result|bool
     }
 }
 
-function statistics_for_all(array $data = []) {
-    $data_for_statistics = [];
-    $male = 0;
-    $female = 0;
-    $avg_old = 0;
-    $count = 0;
+function get_statistics($creator_id) {
+    $conn = getConnection();
+    $sql = "
+        SELECT 
+            SUM(CASE WHEN users.gender = 'male' THEN 1 ELSE 0 END) AS male_count,
+            SUM(CASE WHEN users.gender = 'female' THEN 1 ELSE 0 END) AS female_count,
+            AVG(users.age) AS avg_age
+        FROM registration
+        INNER JOIN users ON registration.user_id = users.user_id
+        INNER JOIN events ON registration.event_id = events.event_id
+        WHERE events.created_by = ? AND registration.status = 'pending'
+    ";
 
-    if (!isset($data['event']) || $data['event']->num_rows == 0) {
-        // If no data is found, return default statistics
-        return [$male, $female, $avg_old];
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        return false;
     }
 
-    while ($row = $data['event']->fetch_object()) {
-        $count += 1;
+    $stmt->bind_param('i', $creator_id);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
 
-        if ($row->gender == 'male') {
-            $male += 1;
-        } elseif ($row->gender == 'female') {
-            $female += 1;
-        }
-
-        $avg_old += $row->age;
-    }
-
-    // Calculate average age
-    $avg_old = ($count > 0) ? $avg_old / $count : 0;
-
-    // Return the statistics
-    return [$male, $female, $avg_old];
+    // Ensure no null values (default to 0)
+    return [
+        'male' => $result['male_count'] ?? 0,
+        'female' => $result['female_count'] ?? 0,
+        'avg_age' => round($result['avg_age'] ?? 0, 2) // Round for better readability
+    ];
 }
