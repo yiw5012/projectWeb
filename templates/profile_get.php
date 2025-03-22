@@ -137,6 +137,33 @@
                                 $result = otp_for_user($s, $f);
                         ?>
                                 <li class="list-group-item">
+                                <?php
+                               
+                               if (empty($row->images)) {
+                                   echo "<p class='text-danger'>ไม่มีรูปภาพ</p>";
+                                   $images = []; // กำหนดเป็นอาร์เรย์ว่างเพื่อป้องกันข้อผิดพลาด
+                               } else {
+                                   $images = explode(',', $row->images);
+                               }
+                          
+                               ?>
+                               <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
+                                   <div class="carousel-inner">
+                                       <?php foreach ($images as $index => $image): ?>
+                                           <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                               <img src="<?= $image ?>" class="d-block w-100 img-thumbnail" alt="Event Image">
+                                           </div>
+                                       <?php endforeach; ?>
+                                   </div>
+                                   <?php if (count($images) > 1): ?>
+                                       <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="prev">
+                                           <span class="carousel-control-prev-icon"></span>
+                                       </button>
+                                       <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="next">
+                                           <span class="carousel-control-next-icon"></span>
+                                       </button>
+                                   <?php endif; ?>
+                               </div>     
                                     <strong>✅ <?= $row->title_event ?></strong><br>
                                     📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
                                     📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
@@ -158,6 +185,33 @@
                             while ($row = $data['ever_rejected']->fetch_object()) { ?>
                                 <li class="list-group-item text-danger">❌ <?= $row->title_event ?></li>
                                  <li class="list-group-item text-danger">
+                                 <?php
+                               
+                               if (empty($row->images)) {
+                                   echo "<p class='text-danger'>ไม่มีรูปภาพ</p>";
+                                   $images = []; // กำหนดเป็นอาร์เรย์ว่างเพื่อป้องกันข้อผิดพลาด
+                               } else {
+                                   $images = explode(',', $row->images);
+                               }
+                          
+                               ?>
+                               <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
+                                   <div class="carousel-inner">
+                                       <?php foreach ($images as $index => $image): ?>
+                                           <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                               <img src="<?= $image ?>" class="d-block w-100 img-thumbnail" alt="Event Image">
+                                           </div>
+                                       <?php endforeach; ?>
+                                   </div>
+                                   <?php if (count($images) > 1): ?>
+                                       <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="prev">
+                                           <span class="carousel-control-prev-icon"></span>
+                                       </button>
+                                       <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="next">
+                                           <span class="carousel-control-next-icon"></span>
+                                       </button>
+                                   <?php endif; ?>
+                               </div>     
                                     <strong>❌ <?= $row->title_event ?></strong><br>
                                     📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
                                     📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
@@ -218,8 +272,12 @@
                     </li>
                     <div>
                         <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">แก้ไข</a>
+                        <a href="/check?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">เช็คOTP</a>
+                        <a href="/detil?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">รายละเอียด</a>
+
 
                         </div>
+
                 <?php }
             } else {
                 echo "<li class='list-group-item'>ไม่มีข้อมูลกิจกรรมที่สร้าง</li>";

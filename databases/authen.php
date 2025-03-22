@@ -26,7 +26,7 @@ function login(String $username, String $password): array|bool
 function check_otp( String $otp): array|bool
 {
     $conn = getConnection();
-    $sql = 'SELECT * FROM users WHERE email = ?';
+    $sql = 'SELECT * FROM attendace WHERE email = ?';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();

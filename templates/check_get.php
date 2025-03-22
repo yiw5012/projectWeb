@@ -1,3 +1,6 @@
+<?php
+echo'fsfs'
+?>
 <form action="check" method="post">
 
               
