@@ -129,19 +129,20 @@
                 <div class="section-card">
                     <h3 class="section-title mt-4">กิจกรรมที่เข้าร่วม</h3>
                     <ul class="list-group">
-                        <?php
+                    <?php
                         if ($data['everevent'] && $data['everevent']->num_rows > 0) {
                             while ($row = $data['everevent']->fetch_object()) {
                                 $s = $row->user_id;
                                 $f = $row->event_id;
-                                $result = otp_for_user($s, $f);  // ดึง OTP จากฐานข้อมูล
-                                var_dump($result);  // ดูผลลัพธ์ที่ได้จาก otp_for_user
-                                var_dump($result); // ดูข้อมูลทั้งหมดที่ได้รับ
-
-
+                                $result = otp_for_user($s, $f);
                         ?>
-                                 
-                                <li class="list-group-item">✅ <?= $row->title_event ?> [OTP] <?= $result['otp_used'] ?? 'ไม่มี OTP'; ?></li>
+                                <li class="list-group-item">
+                                    <strong>✅ <?= $row->title_event ?></strong><br>
+                                    📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
+                                    📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
+                                    📝 <strong>รายละเอียด:</strong> <?= $row->description ?><br>
+                                    [OTP] <?= $result['otp_used'] ?? 'ไม่มี OTP'; ?>
+                                </li>
                         <?php
                             }
                         } else {
@@ -156,6 +157,13 @@
                         if ($data['ever_rejected'] && $data['ever_rejected']->num_rows > 0) {
                             while ($row = $data['ever_rejected']->fetch_object()) { ?>
                                 <li class="list-group-item text-danger">❌ <?= $row->title_event ?></li>
+                                 <li class="list-group-item text-danger">
+                                    <strong>❌ <?= $row->title_event ?></strong><br>
+                                    📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
+                                    📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
+                                    📝 <strong>รายละเอียด:</strong> <?= $row->description ?><br>
+                                    [OTP] <?= $result['otp_used'] ?? 'ไม่มี OTP'; ?>
+                                </li>
                         <?php }
                         } else {
                             echo "<li class='list-group-item text-danger'>ไม่มีข้อมูลกิจกรรมที่โดนปฎิเสธ</li>";
@@ -174,6 +182,10 @@
                             while ($row = $data['allevent']->fetch_object()) { ?>
                                 <li class="list-group-item" style="display: flex; flex-direction: row; justify-content: space-between;">
                                     📌 <?= $row->title_event ?>
+                                    📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
+                                    📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
+                                    📝 <strong>รายละเอียด:</strong> <?= $row->description ?><br>
+                                </li>
                                     <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning button" style="width: 100px;">แก้ไข</a>
                                 </li>
                         <?php }

@@ -154,8 +154,15 @@
                     <?php while ($row = $data['events']->fetch_object()): ?>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 shadow-lg">
-                                <?php
-                                $images = explode(',', $row->images); // แยกภาพ
+                            <?php
+                               
+                                if (empty($row->images)) {
+                                    echo "<p class='text-danger'>ไม่มีรูปภาพ</p>";
+                                    $images = []; // กำหนดเป็นอาร์เรย์ว่างเพื่อป้องกันข้อผิดพลาด
+                                } else {
+                                    $images = explode(',', $row->images);
+                                }
+                           
                                 ?>
                                 <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
