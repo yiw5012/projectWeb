@@ -36,7 +36,7 @@ function walkin_check($regis_id, $otp) {
     $sql = 'SELECT * FROM attendance WHERE registration_id = ? AND otp_used = ?';
     
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ii', $regis_id, $otp);
+    $stmt->bind_param('is', $regis_id, $otp);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
@@ -54,11 +54,6 @@ function walkin_update($regis_id) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('si',$status, $regis_id);
     $stmt->execute();
-	$result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        return true;
-    }else {
-		return false;
-	}
+    return $stmt->affected_rows > 0;
 
 }
