@@ -138,19 +138,37 @@
     <?php if (isset($_SESSION['timestamp'])): ?>
         <section>
             <h2 class="text-center mb-4">กิจกรรมที่เข้าร่วมได้</h2>
-            <form action="home" method="get" style="display: flex; align-items: center; max-width: 500px; margin-left: 20px; border: 1px solid #ddd; border-radius: 5px; padding: 5px;">
-    <select name="search_type" style="border: none; background: transparent; padding: 5px;">
-        <option value="title">ค้นหาตามชื่อกิจกรรม</option>
-        <option value="date_range">ค้นหาตามช่วงเวลา</option>
-    </select>
-    <input type="text" name="keyword" placeholder="ค้นหา..." style="flex: 1; border: none; padding: 5px; outline: none;">
-    <input type="date" name="start_date" placeholder="เริ่มต้น" style="border: none; padding: 5px;">
-    <input type="date" name="end_date" placeholder="สิ้นสุด" style="border: none; padding: 5px;">
-    <button type="submit" style="background: orange; border: none; padding: 5px 10px; cursor: pointer;">
-        🔍
-    </button>
-</form>
+            <form action="home" method="get" style="display: flex; align-items: center; max-width: 600px; margin-left: 20px; border: 1px solid #ddd; border-radius: 5px; padding: 5px;">
+                <select name="search_type" id="search_type" style="border: none; background: transparent; padding: 5px;">
+                    <option value="title">ค้นหาตามชื่อกิจกรรม</option>
+                    <option value="date">ค้นหาตามเวลากิจกรรม</option>
+                </select>
 
+                <input type="text" name="keyword" id="keyword_input" placeholder="ค้นหา..." style="flex: 1; border: none; padding: 5px; outline: none;">
+
+                <div id="date_range" style="display: none; gap: 5px;">
+                    <input type="date" name="start_date" id="start_date" style="border: none; padding: 5px; outline: none;">
+                    <span>ถึง</span>
+                    <input type="date" name="end_date" id="end_date" style="border: none; padding: 5px; outline: none;">
+                </div>
+
+                <button type="submit" style="background: orange; border: none; padding: 5px 10px; cursor: pointer;">
+                    🔍
+                </button>
+
+            </form>
+
+            <script>
+                document.getElementById('search_type').addEventListener('change', function() {
+                    if (this.value === 'date') {
+                        document.getElementById('keyword_input').style.display = 'none';
+                        document.getElementById('date_range').style.display = 'flex';
+                    } else {
+                        document.getElementById('keyword_input').style.display = 'block';
+                        document.getElementById('date_range').style.display = 'none';
+                    }
+                });
+            </script>
 
             <br>
             <div class="container">
