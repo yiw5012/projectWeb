@@ -1,4 +1,4 @@
-
+<?php $stats = $_SESSION['graph']; ?>
 
 <section class=" container my-5">
 
@@ -54,32 +54,31 @@
     </div>
 
     <div class="container mt-4">
-    <canvas id="barChart"></canvas>
+        <canvas id="barChart"></canvas>
     </div>
+    
+    <script>
+        var ctx = document.getElementById('barChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Male', 'Female', 'Average Age'],
+                datasets: [{
+                    label: 'Statistics',
+                    data: [<?= $stats['male'] ?>, <?= $stats['female'] ?>, <?= $stats['avg_age'] ?>],
+                    backgroundColor: ['blue', 'pink', 'green']
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
 
 
 </section>
-
-<script>
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Male', 'Female', 'Average Age'],
-            datasets: [{
-                label: 'Number of People',
-                data: [<?= $statistics['male'] ?>, <?= $statistics['female'] ?>, <?= $statistics['avg_age'] ?>],
-                backgroundColor: ['blue', 'pink', 'red'] // change color here
-                
-            }]
-        },
-        options: {
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-</script>
 
 <script>
     function confirmSubmission() {

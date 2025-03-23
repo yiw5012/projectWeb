@@ -221,11 +221,11 @@ function get_statistics($creator_id) {
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
 
-    // Ensure no null values (default to 0)
-    return [
+    // Store data in the session
+    $_SESSION['graph'] = [
         'male' => $result['male_count'] ?? 0,
         'female' => $result['female_count'] ?? 0,
-        'avg_age' => round($result['avg_age'] ?? 0, 2) // Round for better readability
+        'avg_age' => round($result['avg_age'] ?? 0, 2)
     ];
 }
 
