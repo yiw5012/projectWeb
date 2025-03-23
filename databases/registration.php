@@ -150,6 +150,30 @@ function otp_for_user($user_id, $event_id) {
     
 }
 
+function event_ever_otp($user_id): mysqli_result|bool
+{
+    $status = 'approved';
+
+    $conn = getConnection();
+    $sql = 'SELECT * FROM 
+    attendance 
+    INNER JOIN registration ON attendance.registration_id = registration.registration_id
+    INNER JOIN events ON registration.event_id = events.event_id
+    WHERE user_id = ? and attendance.status = ?';
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('is', $user_id, $status);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return $result;
+    } else {
+        return false;
+    }
+}
+
+
 function not_allow_two($user_id, $event_id): bool {
     $conn = getConnection();
     $sql = 'SELECT * FROM registration WHERE user_id = ? AND event_id = ?';

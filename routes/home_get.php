@@ -1,45 +1,42 @@
 <?php
 declare(strict_types=1);
-var_dump(value: $_GET);
-echo''.$_GET['start_date'].''.$_GET['end_date'];
-if (isset($_SESSION['student_id']) && is_numeric($_SESSION['student_id'])) {
-    $events=getEvent();
 
-    $student_id = (int) $_SESSION['student_id']; // แปลงให้เป็น int
+
+
+// ตรวจสอบว่า session 'timestamp' ถูกตั้งค่า
+if (isset($_SESSION['timestamp'])) {
+    $events = getEvent();
+    $student_id = (int) $_SESSION['student_id'];
     $result = getUserById($student_id);
-    $keyword = $_GET['keyword'] ?? '';
-    $searchType = $_GET['search_type'] ?? 'title'; // ถ้าไม่เลือกจะใช้ค่าเริ่มต้นเป็น 'title'
-    if ($keyword !== '') {
-        if ($searchType == 'title') {
-            $events = getEventsByKeyword($keyword);
+    // รับค่าจาก URL (ค่าเหล่านี้จะถูกส่งผ่าน URL เมื่อฟอร์มถูกส่ง)
+    $searchType = $_GET['search_type'] ?? 'title'; // ค่าเริ่มต้นเป็น 'title'
+    $keyword = $_GET['keyword'] ?? ''; // ค่าคำค้นหาจากฟอร์ม
+    $startDate = $_GET['start_date'] ?? ''; // ค่าวันที่เริ่มต้น
+    $endDate = $_GET['end_date'] ?? ''; // ค่าวันที่สิ้นสุด
 
-        } elseif ($searchType  == 'date' && isset($_GET['start_date']) && isset($_GET['end_date'])) {
-            $start_date = $_GET['start_date'];
-            $end_date = $_GET['end_date'];
+    // ตรวจสอบค่าที่ได้รับจากฟอร์ม
+    // สามารถใช้ค่าที่ได้รับเพื่อคิวรีฐานข้อมูล
+    // ตัวอย่างการค้นหาตามประเภท
+    if ($searchType === 'title' && $keyword !== '') {
+        $events = getEventsByKeyword($keyword);
 
-            $events = getEventsByDateRange($start_date,endDate: $end_date);
-        }
-        renderView('home_get', array('result' => $result, 'events' => $events));
+        // ค้นหาตามชื่อกิจกรรม
+        // เรียกฟังก์ชันหรือ SQL query ที่ใช้ $keyword ในการค้นหา
+    } elseif ($searchType === 'date' && $startDate !== '' && $endDate !== '') {
+        // ค้นหาตามช่วงเวลา
+        $events = getEventsByDateRange($startDate, $endDate);
 
-
-    }else{
-        renderView('home_get', array('result' => $result, 'events' => $events));
-
+        // เรียกฟังก์ชันหรือ SQL query ที่ใช้ $startDate และ $endDate ในการค้นหา
     }
 
+    renderView('home_get', array('result' => $result, 'events' => $events));
 
 
 }else{
-$events=getEvent();
 
-renderView('home_get', array('events' => $events));
-}
-// ดึงข้อมูลผู้ใช้จากฐานข้อมูล
+        $events = getEvent();
+        renderView('home_get', array('events' => $events));
+    }
 
 
-//renderView('home_get', array('result' => $result, 'events' => $events));
-
-//renderView('home_get', array('result' => $result, 'events' => $events));
-
-// เรียกใช้งานฟังก์ชัน renderView เพื่อแสดงผลในหน้า home_get.php
 ?>

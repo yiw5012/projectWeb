@@ -12,9 +12,6 @@ function login(String $username, String $password): array|bool
         return false; // ไม่มีผู้ใช้งานที่ตรงกับ email
     }
     $row = $result->fetch_assoc();
-    // ตรวจสอบว่า password ที่ถูกกรอกตรงกับ password ที่เก็บในฐานข้อมูลหรือไม่
-    var_dump($row['password']); // ตรวจสอบค่าของ password ที่เก็บในฐานข้อมูล
-    var_dump($password); // ตรวจสอบค่าของ password ที่กรอกเข้ามา
 
     if (password_verify(($password), $row['password'])) {
         return $row; // ถ้ารหัสผ่านถูกต้อง
@@ -55,5 +52,19 @@ function walkin_update($regis_id) {
     $stmt->bind_param('si',$status, $regis_id);
     $stmt->execute();
     return $stmt->affected_rows > 0;
+
+
+
+}
+function walkin_update_regis($regis_id) {
+    $conn = getConnection();
+    $sql = 'UPDATE registration SET status = ? WHERE  registration_id = ? ';
+    $status = 'canceled';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('si',$status, $regis_id);
+    $stmt->execute();
+    return $stmt->affected_rows > 0;
+
+    
 
 }

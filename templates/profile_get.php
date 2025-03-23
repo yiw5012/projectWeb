@@ -8,6 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* สไตล์เดิมทั้งหมด */
+        body {
+            background: url('https://i.pinimg.com/originals/89/dd/d5/89ddd54255e578c5402519868f438c0b.png');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        /* ปรับสไตล์ของ Navbar */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        
         .section-card {
             border: 1px solid #dee2e6;
             border-radius: 8px;
@@ -35,6 +48,7 @@
         .tab-content {
             padding: 20px 0;
         }
+        
     </style>
 </head>
 
@@ -57,11 +71,13 @@
             <div class="col-md-8">
                 <div class="section-card">
                     <!-- แท็บเมนู -->
-                    <nav class="nav nav-pills mb-4">
+                    <nav class="nav nav-pills mb-4" style="color: #2d3436;" >
                         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pending">กิจกรรมที่ขอเข้าร่วม</button>
                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#joined">กิจกรรมที่เข้าร่วม</button>
                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rejected">กิจกรรมที่ปฏิเสธ</button>
                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#created">กิจกรรมที่สร้าง</button>
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#created_o">กิจกรรมที่เคย</button>
+
                     </nav>
 
                     <!-- เนื้อหาแท็บ -->
@@ -124,6 +140,8 @@
                                             📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
                                             📝 <strong>รายละเอียด:</strong> <?= $row->description ?><br>
                                             [OTP] <?= $result['otp_used'] ?? 'ไม่มี OTP'; ?>
+                                            [ID] <?= $result['registration_id'] ?? 'ไม่มี ID'; ?>
+
                                         </li>
                                     <?php endwhile; ?>
                                 <?php else: ?>
@@ -223,6 +241,56 @@
                                                     <a href="/editact?event_id=<?= $row->event_id ?>" class="btn btn-warning btn-sm">แก้ไข</a>
                                                     <a href="/check?event_id=<?= $row->event_id ?>" class="btn btn-warning btn-sm">เช็คOTP</a>
                                                     <a href="/detil?event_id=<?= $row->event_id ?>" class="btn btn-warning btn-sm">รายละเอียด</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <li class="list-group-item">ไม่มีข้อมูลกิจกรรมที่สร้าง</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+
+                         <!-- แท็บ 4: กิจกรรมที่g8p -->
+                         <div class="tab-pane fade" id="created_o">
+                            <ul class="list-group">
+                                <?php if ($data['ever_otp'] && $data['ever_otp']->num_rows > 0): ?>
+                                    <?php while ($row = $data['ever_otp']->fetch_object()): ?>
+                                        <li class="list-group-item">
+                                            <!-- ส่วนแสดงรูปภาพและเนื้อหา -->
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <?php
+
+                                                    if (empty($row->images)) {
+                                                        echo "<p class='text-danger'>ไม่มีรูปภาพ</p>";
+                                                        $images = []; // กำหนดเป็นอาร์เรย์ว่างเพื่อป้องกันข้อผิดพลาด
+                                                    } else {
+                                                        $images = explode(',', $row->images);
+                                                    }
+
+                                                    ?>
+                                                    <div id="carousel<?= $row->event_id ?>" class="carousel slide" data-bs-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            <?php foreach ($images as $index => $image): ?>
+                                                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                                                    <img src="<?= $image ?>" class="d-block w-100 img-thumbnail" alt="Event Image">
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        </div>
+                                                        <?php if (count($images) > 1): ?>
+                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="prev">
+                                                                <span class="carousel-control-prev-icon"></span>
+                                                            </button>
+                                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $row->event_id ?>" data-bs-slide="next">
+                                                                <span class="carousel-control-next-icon"></span>
+                                                            </button>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    📌 <?= $row->title_event ?><br>
+                                                    📅 <strong>วันที่:</strong> <?= $row->date_time ?><br>
+                                                    📍 <strong>สถานที่:</strong> <?= $row->location ?><br>
+                                                    📝 <strong>รายละเอียด:</strong> <?= $row->description ?>
                                                 </div>
                                             </div>
                                         </li>
