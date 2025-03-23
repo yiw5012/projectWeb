@@ -5,164 +5,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แก้ไขกิจกรรม</title>
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --hover-color: #1d4ed8;
+        }
+
+        body {
+            background: #f8fafc;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
         .upload-section {
             height: 300px;
-            border: 2px dashed #ddd;
+            border: 2px dashed #cbd5e1;
+            border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
             cursor: pointer;
-            background: #f8f9fa;
-            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
             position: relative;
             overflow: hidden;
         }
 
         .upload-section:hover {
-            border-color: #0d6efd;
-            background: #f1f8ff;
+            border-color: var(--primary-color);
+            background: #f1f5f9;
         }
 
-        .preview-container img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 10px;
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
 
-        .carousel-item img {
+        .image-preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .preview-image {
             width: 100%;
-            max-height: 300px;
+            height: 100px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .delete-image {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(255,0,0,0.7);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-submit {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-submit:hover {
+            background: var(--hover-color);
+            transform: translateY(-2px);
+        }
+        body {
+            background: url('https://i.pinimg.com/originals/89/dd/d5/89ddd54255e578c5402519868f438c0b.png');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        /* ปรับสไตล์ของ Navbar */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white !important;
         }
     </style>
 </head>
 
-<body class="bg-light">
-    <div class="container py-5">
-        <div class="row justify-content-center">
+<body >
+    <div class="container">
+        <div class="form-container">
             <?php while ($row = $data['result']->fetch_object()): ?>
-
-                <div class="col-lg-8">
-                    <h1 class="mb-4 text-center text-primary">แก้ไขกิจกรรม</h1>
-                    <form action="EditAct" method="post" enctype="multipart/form-data" class="p-4 shadow bg-white rounded">
-
-                        <!-- อัปโหลดรูปภาพ -->
-                        <div class="mb-3 text-center">
-                            <div class="upload-section" onclick="document.getElementById('image').click()">
-                                <div id="uploadText" class="text-muted">
-                                    <i class="bi bi-cloud-upload fs-1"></i><br>
-                                    คลิกเพื่ออัปโหลดรูปภาพ
+            <form action="EditAct" method="post" enctype="multipart/form-data">
+                <div class="row g-0">
+                    <!-- Image Upload Section -->
+                    <div class="col-lg-5">
+                        <div class="upload-section" onclick="document.getElementById('images').click()">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="text-center text-muted">
+                                คลิกเพื่ออัปโหลดรูปภาพใหม่<br>
+                                <small>(รองรับ JPG, PNG ขนาดไม่เกิน 5MB)</small>
+                            </div>
+                            <input type="file" id="images" name="images[]" multiple hidden 
+                                   accept="image/*" onchange="previewImages(event)">
+                        </div>
+                        <div class="image-preview-container" id="imagePreview">
+                            <?php 
+                            $images = explode(',', $row->images);
+                            foreach ($images as $image): ?>
+                                <div class="preview-item">
+                                    <img src="<?= $image ?>" class="preview-image">
+                                    <div class="delete-image" onclick="deleteExistingImage(this)">×</div>
+                                    <input type="hidden" name="existing_images[]" value="<?= $image ?>">
                                 </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+                    <!-- Event Details -->
+                    <div class="col-lg-7 p-5">
+                        <h1 class="text-center mb-5 fw-bold">แก้ไขกิจกรรม</h1>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <label class="form-label">ชื่อกิจกรรม</label>
+                                <input type="text" class="form-control" name="title" 
+                                       value="<?= $row->title_event ?>" required>
                             </div>
-                            <input type="file" id="image" name="images[]" accept="image/*" multiple onchange="previewImage(event)" hidden>
-                            <input type="hidden" name="old_image" value="<?= $row->images ?>">
 
-                            <div class="preview-container">
-                                <img id="previewImage" src="" style="display: none;">
+                            <div class="col-md-12">
+                                <label class="form-label">รายละเอียดกิจกรรม</label>
+                                <textarea class="form-control" name="detil" rows="4"><?= $row->description ?></textarea>
                             </div>
-                        </div>
 
-                        <!-- แสดงภาพทั้งหมดเป็นแกลเลอรี -->
-                        <?php $images = explode(',', $row->images); ?>
-                        <div id="imageCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <?php foreach ($images as $index => $image): ?>
-                                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                        <img src="<?= $image ?>" class="d-block w-100">
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </button>
-                        </div>
-
-                        <!-- ฟอร์มข้อมูลกิจกรรม -->
-                        <div class="mb-3">
-                            <label class="form-label">ชื่อกิจกรรม</label>
-                            <input name="title" type="text" class="form-control" value="<?= $row->title_event ?>" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">รายละเอียด</label>
-                            <textarea name="detil" class="form-control" rows="4"><?= $row->description ?></textarea>
-                        </div>
-
-                        <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">สถานที่จัดกิจกรรม</label>
-                                <input name="localion" type="text" class="form-control" value="<?= $row->location ?>" required>
+                                <input type="text" class="form-control" name="localion" 
+                                       value="<?= $row->location ?>" required>
                             </div>
+
                             <div class="col-md-6">
                                 <label class="form-label">วันที่จัดกิจกรรม</label>
-                                <input name="date_time" id="date_time" type="text" class="form-control" value="<?= $row->date_time ?>" required>
+                                <input type="text" class="form-control" id="date_time" 
+                                       name="date_time" value="<?= $row->date_time ?>" required>
                             </div>
-                        </div>
 
-                        <div class="row g-3 mt-3">
-                            <div class="col-md-6">
-                                <label class="form-label">วันที่เปิดลงทะเบียน</label>
-                                <input type="text" class="form-control" value="<?= $row->date_reg ?>" disabled>
-                            </div>
                             <div class="col-md-6">
                                 <label class="form-label">จำนวนที่รับ</label>
-                                <input name="max" type="number" class="form-control" value="<?= $row->max_capacity ?>" required>
+                                <input type="number" class="form-control" name="max" 
+                                       value="<?= $row->max_capacity ?>" required>
                             </div>
                         </div>
 
-                        <input name="id" type="hidden" value="<?= $row->event_id ?>">
+                        <input type="hidden" name="id" value="<?= $row->event_id ?>">
 
-                        <button type="submit" class="btn btn-success w-100 mt-4">ยืนยันการแก้ไข</button>
-                    </form>
+                        <button type="submit" class="btn-submit w-100 mt-4">
+                            <i class="fas fa-save me-2"></i>บันทึกการเปลี่ยนแปลง
+                        </button>
+                    </div>
                 </div>
-
+            </form>
             <?php endwhile; ?>
         </div>
     </div>
 
-    <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        // ฟังก์ชันแสดงตัวอย่างรูปภาพ
-        function previewImage(event) {
-            var files = event.target.files;
-            var preview = document.getElementById('previewImage');
-            var uploadText = document.getElementById('uploadText');
-
-            if (files.length > 0) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    uploadText.style.display = 'none';
-                };
-                reader.readAsDataURL(files[0]);
-            }
-        }
-
-        // ใช้ Flatpickr เพื่อเลือกวันที่และเวลา
+        // Initialize Flatpickr
         flatpickr("#date_time", {
             enableTime: true,
             dateFormat: "Y-m-d H:i",
             time_24hr: true,
             locale: "th"
         });
+
+        // Image Preview Function
+        function previewImages(event) {
+            const previewContainer = document.getElementById('imagePreview');
+            const files = event.target.files;
+
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" class="preview-image">
+                        <div class="delete-image" onclick="deleteImage(this)">×</div>
+                    `;
+                    previewContainer.appendChild(div);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Delete Image Function
+        function deleteImage(element) {
+            element.parentElement.remove();
+        }
+
+        function deleteExistingImage(element) {
+            const item = element.closest('.preview-item');
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'deleted_images[]';
+            input.value = item.querySelector('img').src;
+            document.querySelector('form').appendChild(input);
+            item.remove();
+        }
     </script>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

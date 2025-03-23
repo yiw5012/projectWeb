@@ -4,7 +4,18 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+ <!-- #region -->
+  <style>
+      .navbar {
+            background-color: rgba(0, 0, 0, 0);
+        }
+        body {
+            background: url('https://i.pinimg.com/originals/89/dd/d5/89ddd54255e578c5402519868f438c0b.png');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Prompt', sans-serif;
+        }
+  </style>
     <h2 class="text-primary mb-3">คำขอเข้าร่วมกิจกรรม</h2>
     <div class="table-responsive">
         <table class="table table-bordered">

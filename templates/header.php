@@ -47,6 +47,7 @@
             color: cyan;
             /* สีเมื่อ hover */
         }
+        
     </style>
 </head>
 
@@ -79,26 +80,7 @@
                             <a class="nav-link text-danger" href="/logout">ออกจากระบบ</a>
                         </li>
                     <?php else: ?>
-                        <nav class="navbar navbar-expand-lg navbar-ligth">
-                            <div class="container-fluid">
-                                <div class="collapse navbar-collapse" id="navbarNav">
-                                    <ul class="navbar-nav ms-auto">
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="/">Home</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="">About</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Services</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Contact</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
+                        
                     <?php endif; ?>
                 </ul>
             </div>
