@@ -120,7 +120,7 @@
 <body>
     <div class="container">
         <div class="form-container">
-            <form action="createAct" method="post" enctype="multipart/form-data">
+            <form action="createact" method="post" enctype="multipart/form-data">
                 <div class="row g-0">
                     <!-- Image Upload Section -->
                     <div class="col-lg-5">

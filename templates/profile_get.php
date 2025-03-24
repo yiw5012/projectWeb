@@ -48,6 +48,17 @@
         .tab-content {
             padding: 20px 0;
         }
+    /* กำหนดขนาดของรูปภาพใน carousel ให้เท่ากัน */
+    .carousel-inner img {
+        width: 300px; /* ทำให้รูปภาพเต็มความกว้างของ carousel */
+        height: 200px; /* กำหนดความสูงคงที่ */
+        object-fit: cover; /* ให้รูปภาพครอบคลุมพื้นที่โดยไม่บิดเบี้ยว */
+        display: block; /* ทำให้รูปภาพเป็นบล็อก เพื่อไม่ให้เกิดช่องว่าง */
+    }
+
+
+</style>
+
         
     </style>
 </head>

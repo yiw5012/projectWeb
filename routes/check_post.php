@@ -1,6 +1,6 @@
 <?php
 echo''.$_POST['otp'].''.$_POST['registration_id'];
-if(walkin_check($_POST['registration_id'], $_POST['otp'])){
+if(walkin_check($_POST['registration_id'], $_POST['otp'],$_POST['event_id'])){
 	if(walkin_update($_POST['registration_id'])) {
       if(walkin_update_regis($_POST['registration_id'])){
         echo "<script>

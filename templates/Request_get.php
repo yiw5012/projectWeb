@@ -7,10 +7,10 @@
  <!-- #region -->
   <style>
       .navbar {
-            background-color: rgba(0, 0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.5);
         }
         body {
-            background: url('https://i.pinimg.com/originals/89/dd/d5/89ddd54255e578c5402519868f438c0b.png');
+           
             background-size: cover;
             background-position: center;
             font-family: 'Prompt', sans-serif;

@@ -1,6 +1,7 @@
 <?php
 $allow = not_allow_two($_SESSION['student_id'],$_GET['event_id']);
 if($allow){
+    echo "<script>alert('คุณเคยเข้าร่วมกิจกรรมนี้แล้ว');</script>";
 
 }else{
     registration($_GET['event_id'],$_SESSION['student_id']);

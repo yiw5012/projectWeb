@@ -28,20 +28,24 @@ function logout():void
 }
 
 
-function walkin_check($regis_id, $otp) {
+function walkin_check($regis_id, $otp, $event_id) {
     $conn = getConnection();
-    $sql = 'SELECT * FROM attendance WHERE registration_id = ? AND otp_used = ?';
-    
+    $sql = 'SELECT * 
+    FROM attendance 
+    INNER JOIN registration ON attendance.registration_id = registration.registration_id
+            WHERE attendance.registration_id = ? 
+            AND attendance.otp_used = ? 
+            AND registration.event_id = ?';
+
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('is', $regis_id, $otp);
+    $stmt->bind_param('isi', $regis_id, $otp, $event_id);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         return true;
     }else {
-		return false;
-	}
-
+        return false;
+    }
 }
 
 function walkin_update($regis_id) {
